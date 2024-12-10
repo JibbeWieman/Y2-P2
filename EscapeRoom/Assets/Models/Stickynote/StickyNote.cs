@@ -89,4 +89,27 @@ public class StickyNote : MonoBehaviour
             DestroyImmediate(instanceMaterial);
         }
     }
+
+
+    public float CalculateContrastRatio()
+    {
+        return ContrastRatio(materialColor, textColor);
+    }
+
+    private float ContrastRatio(Color bg, Color text)
+    {
+        float bgLuminance = RelativeLuminance(bg);
+        float textLuminance = RelativeLuminance(text);
+        float lighter = Mathf.Max(bgLuminance, textLuminance);
+        float darker = Mathf.Min(bgLuminance, textLuminance);
+        return (lighter + 0.05f) / (darker + 0.05f);
+    }
+
+    private float RelativeLuminance(Color color)
+    {
+        float r = (color.r <= 0.03928f) ? (color.r / 12.92f) : Mathf.Pow((color.r + 0.055f) / 1.055f, 2.4f);
+        float g = (color.g <= 0.03928f) ? (color.g / 12.92f) : Mathf.Pow((color.g + 0.055f) / 1.055f, 2.4f);
+        float b = (color.b <= 0.03928f) ? (color.b / 12.92f) : Mathf.Pow((color.b + 0.055f) / 1.055f, 2.4f);
+        return 0.2126f * r + 0.7152f * g + 0.0722f * b;
+    }
 }
