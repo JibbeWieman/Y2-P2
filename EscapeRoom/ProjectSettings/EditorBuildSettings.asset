@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleSceneHandInteraction.unity
+    path: Assets/Scenes/VR Demo Scenes/SampleSceneHandInteraction.unity
     guid: 3496b7f9194c23749bded31b28908b1a
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}

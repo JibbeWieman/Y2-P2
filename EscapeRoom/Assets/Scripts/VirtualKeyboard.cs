@@ -1,0 +1,138 @@
+using System;
+using TMPro;
+using Unity.FPS.Game;
+using UnityEngine;
+
+public class VirtualKeyboard : MonoBehaviour
+{
+    [SerializeField]
+    private TMP_InputField inputField;
+
+    [SerializeField]
+    private int characterLimit = 20;
+
+    [SerializeField]
+    private HackerGenerator hackerID;
+
+    private bool nameGuessed = false; // Bool to track the match status.
+    private bool passwordGuessed = false; // Bool to track the match status.
+    private bool isCapsLockOn = false; // Tracks the state of Caps Lock.
+    private bool isShiftHeld = false; // Tracks if Shift is currently held down.
+
+
+    void Start()
+    {
+        inputField.characterLimit = characterLimit;
+        inputField.onSubmit.AddListener(ValidateAnswer);
+
+        hackerID.PickRandomHackerProfile();
+    }
+
+    private void ValidateAnswer(string inputText)
+    {
+        switch (nameGuessed)
+        {
+            case false:
+                if (inputText == hackerID.name)
+                {
+                    nameGuessed = true;
+                    inputField.text = null;
+                    Console.WriteLine("Name guessed correctly! Now guess the password.");
+                }
+                else
+                {
+                    Console.WriteLine("Name is incorrect. Try again.");
+                }
+                break;
+
+            case true:
+                if (inputText == hackerID.password)
+                {
+                    passwordGuessed = true;
+                    inputField.text = null;
+                    Console.WriteLine("Password guessed correctly! Access granted.");
+                }
+                else
+                {
+                    Console.WriteLine("Password is incorrect. Try again.");
+                }
+                break;
+        }
+    }
+
+    #region BUTTON METHODS
+    // This method is called when a key is pressed
+    public void OnKeyPress(string key)
+    {
+        if (inputField != null)
+        {
+            // Adjust key based on Caps Lock state
+            string adjustedKey = isCapsLockOn ? key.ToUpper() : key.ToLower();
+            inputField.text += adjustedKey;
+        }
+
+        Debug.Log($"Key Pressed: {key} (Caps Lock: {isCapsLockOn})"); // Logs the key press for debugging
+    }
+
+    // Method for toggling Caps Lock
+    public void ToggleCapsLock()
+    {
+        isCapsLockOn = !isCapsLockOn;
+        Debug.Log($"Caps Lock is now {(isCapsLockOn ? "ON" : "OFF")}");
+    }
+
+    // Method for handling Shift key press
+    public void OnShiftPress(bool isPressed)
+    {
+        if (isPressed)
+        {
+            // Shift pressed: Temporarily toggle Caps Lock
+            isShiftHeld = true;
+            isCapsLockOn = !isCapsLockOn;
+        }
+        else
+        {
+            // Shift released: Revert Caps Lock state
+            isShiftHeld = false;
+            isCapsLockOn = !isCapsLockOn;
+        }
+
+        Debug.Log($"Shift {(isPressed ? "Pressed" : "Released")}, Caps Lock: {isCapsLockOn}");
+    }
+
+    // Method for handling the spacebar
+    public void OnSpacePress()
+    {
+        if (inputField != null)
+        {
+            inputField.text += " "; // Add a space
+        }
+
+        Debug.Log("Space Pressed");
+    }
+
+    // Method for handling the backspace key
+    public void OnBackspacePress()
+    {
+        if (inputField != null && inputField.text.Length > 0)
+        {
+            // Remove the last character
+            inputField.text = inputField.text.Substring(0, inputField.text.Length - 1);
+        }
+
+        Debug.Log("Backspace Pressed");
+    }
+
+    // Method for handling the enter/confirm key
+    public void OnEnterPress()
+    {
+        if (inputField != null)
+        {
+            Debug.Log($"Input Confirmed: {inputField.text}");
+            ValidateAnswer(inputField.text);
+        }
+
+        Debug.Log("Enter Pressed");
+    }
+    #endregion
+}

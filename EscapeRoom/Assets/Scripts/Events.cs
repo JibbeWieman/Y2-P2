@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Unity.FPS.Game
@@ -8,13 +9,24 @@ namespace Unity.FPS.Game
     public static class Events
     {
         // Jibbe's Events
-        public static XpUpdateEvent XpUpdateEvent = new XpUpdateEvent();
+        public static ValidateAnswerEvent ValidateAnswerEvent = new ValidateAnswerEvent();
 
     }
 
     // Jibbe's Events
-    public class XpUpdateEvent : GameEvent
+    public class ValidateAnswerEvent : GameEvent
     {
-        public int XP = 0;
+        private string _answer;
+        
+        public string Answer
+        {
+            get { return _answer; }
+            set
+            {
+                _answer = value;
+                EventManager.Broadcast(Events.ValidateAnswerEvent);
+            }
+        }
+
     }
 }
