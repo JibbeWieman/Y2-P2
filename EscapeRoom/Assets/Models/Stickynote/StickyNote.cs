@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -13,6 +11,8 @@ public class StickyNote : MonoBehaviour
     [SerializeField]
     private Color textColor = Color.white;
 
+    [SerializeField]
+    private float textSize = 3.79f;
 
     [SerializeField]
     private string text = "Sample";
@@ -75,6 +75,7 @@ public class StickyNote : MonoBehaviour
         {
             textObj.text = text;
             textObj.faceColor = textColor;
+            textObj.fontSize = textSize;
         }
         else
         {
