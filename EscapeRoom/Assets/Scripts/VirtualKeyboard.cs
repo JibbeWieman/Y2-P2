@@ -64,7 +64,7 @@ public class VirtualKeyboard : MonoBehaviour
     // This method is called when a key is pressed
     public void OnKeyPress(string key)
     {
-        if (inputField != null)
+        if (inputField != null && inputField.text.Length < characterLimit)
         {
             // Adjust key based on Caps Lock state
             string adjustedKey = isCapsLockOn ? key.ToUpper() : key.ToLower();
