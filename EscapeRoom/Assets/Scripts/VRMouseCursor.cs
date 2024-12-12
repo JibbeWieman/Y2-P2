@@ -101,7 +101,8 @@ public class VRMouseCursor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Ground"))
+        //if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (other.gameObject != this)
         {
             canMove = true;
         }
@@ -109,7 +110,8 @@ public class VRMouseCursor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ground"))
+        //if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (other.gameObject != this)
         {
             canMove = false;
         }
