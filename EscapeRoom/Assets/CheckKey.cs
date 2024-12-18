@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class CheckKey : MonoBehaviour
 {
@@ -12,9 +13,15 @@ public class CheckKey : MonoBehaviour
 
     private GameObject insertedObject;
 
+    [SerializeField]
+    private XRGrabInteractable XRGrabInteractable;
+
     private void Start()
     {
         checkKeyArea = GetComponent<Collider>();
+        
+        if (XRGrabInteractable != null)
+            XRGrabInteractable.enabled = false;
     }
 
     public void CheckIfKey()
@@ -29,6 +36,8 @@ public class CheckKey : MonoBehaviour
     {
         //something
         Debug.Log("Correct key inserted");
+        if (XRGrabInteractable != null)
+            XRGrabInteractable.enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -5,15 +5,20 @@ using UnityEngine;
 
 public class VirtualKeyboard : MonoBehaviour
 {
-    [SerializeField]
     private TMP_InputField inputField;
 
     [SerializeField]
     private int characterLimit = 20;
 
     [SerializeField]
+    private GameObject LogInPanel, StudentLogInPanel;
+
+    [SerializeField]
+    private string teacherPassword = "iDontKnow";
+
     private HackerGenerator hackerID;
 
+    private bool loggedIn = false;
     private bool nameGuessed = false; // Bool to track the match status.
     private bool passwordGuessed = false; // Bool to track the match status.
     private bool isCapsLockOn = false; // Tracks the state of Caps Lock.
@@ -22,6 +27,10 @@ public class VirtualKeyboard : MonoBehaviour
 
     void Start()
     {
+        StudentLogInPanel.SetActive(false);
+        hackerID = FindAnyObjectByType<HackerGenerator>();
+        inputField = LogInPanel.GetComponentInChildren<TMP_InputField>();
+
         inputField.characterLimit = characterLimit;
         inputField.onSubmit.AddListener(ValidateAnswer);
 
@@ -30,33 +39,55 @@ public class VirtualKeyboard : MonoBehaviour
 
     private void ValidateAnswer(string inputText)
     {
-        switch (nameGuessed)
+        if (!loggedIn)
         {
-            case false:
-                if (inputText == hackerID.name)
-                {
-                    nameGuessed = true;
-                    inputField.text = null;
-                    Console.WriteLine("Name guessed correctly! Now guess the password.");
-                }
-                else
-                {
-                    Console.WriteLine("Name is incorrect. Try again.");
-                }
-                break;
+            // Check teacher password
+            if (inputText == teacherPassword)
+            {
+                loggedIn = true;
+                inputField.text = null;
+                Console.WriteLine("Teacher logged in. Opening Student Login Panel.");
+                StudentLogInPanel.SetActive(true);
+                LogInPanel.SetActive(false);
+                inputField = StudentLogInPanel.GetComponentInChildren<TMP_InputField>();
+            }
+            else
+            {
+                Console.WriteLine("Incorrect teacher password. Clearing input field.");
+                inputField.text = null;
+            }
+        }
+        else
+        {
+            // Proceed with existing logic if logged in
+            switch (nameGuessed)
+            {
+                case false:
+                    if (inputText == hackerID.studentName)
+                    {
+                        nameGuessed = true;
+                        inputField.text = null;
+                        Console.WriteLine("Name guessed correctly! Now guess the password.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Name is incorrect. Try again.");
+                    }
+                    break;
 
-            case true:
-                if (inputText == hackerID.password)
-                {
-                    passwordGuessed = true;
-                    inputField.text = null;
-                    Console.WriteLine("Password guessed correctly! Access granted.");
-                }
-                else
-                {
-                    Console.WriteLine("Password is incorrect. Try again.");
-                }
-                break;
+                case true:
+                    if (inputText == hackerID.password)
+                    {
+                        passwordGuessed = true;
+                        inputField.text = null;
+                        Console.WriteLine("Password guessed correctly! Access granted.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Password is incorrect. Try again.");
+                    }
+                    break;
+            }
         }
     }
 
