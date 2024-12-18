@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class VRMouseCursor : MonoBehaviour
 {
@@ -84,20 +85,47 @@ public class VRMouseCursor : MonoBehaviour
         // Get the position of the cursor in canvas space
         Vector2 clickPosition = cursorImage.anchoredPosition;
 
-        // Convert to world position if needed for UI interactions
-        Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, clickPosition, null, out localPoint);
+        // Convert to screen position for UI interactions
+        Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, cursorImage.position);
 
-        Debug.Log($"Click registered at position: {localPoint}");
+        Debug.Log($"Click registered at screen position: {screenPosition}");
 
-        // If you want to invoke a Unity UI event or detect UI elements:
+        // Create PointerEventData with the converted screen position
         PointerEventData pointerData = new PointerEventData(EventSystem.current)
         {
-            position = clickPosition
+            position = screenPosition
         };
 
-        // Optionally, you can process this pointer data using a Raycaster
+        // Perform a raycast
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+        if (raycastResults.Count > 0)
+        {
+            // Get the topmost UI element hit by the raycast
+            RaycastResult result = raycastResults[0];
+            GameObject clickedObject = result.gameObject;
+
+            Debug.Log($"Clicked on: {clickedObject.name}");
+
+            // If the clicked object has a Button component, invoke its click event
+            Button button = clickedObject.GetComponent<Button>();
+            if (button != null)
+            {
+                button.onClick.Invoke();
+                Debug.Log("Button click event invoked.");
+            }
+            else
+            {
+                Debug.Log("Clicked object is not a button.");
+            }
+        }
+        else
+        {
+            Debug.Log("No UI element clicked.");
+        }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
