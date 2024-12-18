@@ -43,37 +43,39 @@ public class VRMouseCursor : MonoBehaviour
 
     void Update()
     {
-        // Calculate movement
+        // Movement calculation (same as before)
         Vector3 currentPosition = transform.position;
         movement = currentPosition - lastPosition;
         lastPosition = currentPosition;
 
-        // Ignore tiny movements or if velocity is negligible
         if (!canMove || rb.velocity.magnitude <= 0.01f || movement.magnitude < movementThreshold)
             return;
 
         // Convert world movement to canvas space
         Vector2 canvasMovement = new Vector2(movement.x, movement.z) * sensitivity;
 
-        // Check for objects underneath the BoxCollider
         if (canMove)
         {
-            // Calculate the new target position
+            // Update target position
             targetPosition = cursorImage.anchoredPosition + canvasMovement;
 
-            // Clamp the target position within the canvas bounds
+            // Clamp the position
             Rect canvasRect = canvasRectTransform.rect;
             targetPosition.x = Mathf.Clamp(targetPosition.x, canvasRect.xMin, canvasRect.xMax);
             targetPosition.y = Mathf.Clamp(targetPosition.y, canvasRect.yMin, canvasRect.yMax);
         }
 
-        // Smoothly lerp the cursor to the target position
+        // Smoothly move cursor
         cursorImage.anchoredPosition = Vector2.Lerp(
             cursorImage.anchoredPosition,
             targetPosition,
             lerpSpeed * Time.deltaTime
         );
+
+        // Simulate hover interactions
+        SimulateHover();
     }
+
 
     private void OnClickPerformed(InputAction.CallbackContext context)
     {
@@ -82,15 +84,46 @@ public class VRMouseCursor : MonoBehaviour
 
     void HandleClick()
     {
-        // Get the position of the cursor in canvas space
-        Vector2 clickPosition = cursorImage.anchoredPosition;
-
-        // Convert to screen position for UI interactions
+        // Convert cursor position to screen space
         Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, cursorImage.position);
 
         Debug.Log($"Click registered at screen position: {screenPosition}");
 
-        // Create PointerEventData with the converted screen position
+        // Create PointerEventData for the EventSystem
+        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        {
+            position = screenPosition
+        };
+
+        // Perform a raycast
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        foreach (var result in raycastResults)
+        {
+            Debug.Log($"{result.gameObject.name}");
+        }
+            EventSystem.current.RaycastAll(pointerData, raycastResults);
+
+        foreach (var result in raycastResults)
+        {
+            Debug.Log($"Raycast hit: {result.gameObject.name}");
+
+            // Check if the object is interactive (Button, Toggle, etc.)
+            if (result.gameObject.TryGetComponent<Button>(out var button))
+            {
+                Debug.Log($"Button clicked: {button.name}");
+                button.onClick.Invoke();
+                return; // Stop further processing after first valid click
+            }
+        }
+
+        Debug.Log("No interactive UI element clicked.");
+    }
+
+
+    void SimulateHover()
+    {
+        Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, cursorImage.position);
+
         PointerEventData pointerData = new PointerEventData(EventSystem.current)
         {
             position = screenPosition
@@ -102,27 +135,17 @@ public class VRMouseCursor : MonoBehaviour
 
         if (raycastResults.Count > 0)
         {
-            // Get the topmost UI element hit by the raycast
-            RaycastResult result = raycastResults[0];
-            GameObject clickedObject = result.gameObject;
-
-            Debug.Log($"Clicked on: {clickedObject.name}");
-
-            // If the clicked object has a Button component, invoke its click event
-            Button button = clickedObject.GetComponent<Button>();
-            if (button != null)
+            foreach (var result in raycastResults)
             {
-                button.onClick.Invoke();
-                Debug.Log("Button click event invoked.");
+                GameObject hoveredObject = result.gameObject;
+
+                // Handle hover states if the object is a button
+                if (hoveredObject.TryGetComponent<Button>(out var button))
+                {
+                    ExecuteEvents.Execute(hoveredObject, pointerData, ExecuteEvents.pointerEnterHandler);
+                    Debug.Log($"Hovering over: {hoveredObject.name}");
+                }
             }
-            else
-            {
-                Debug.Log("Clicked object is not a button.");
-            }
-        }
-        else
-        {
-            Debug.Log("No UI element clicked.");
         }
     }
 
