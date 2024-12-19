@@ -21,7 +21,7 @@ public class StickyNote : MonoBehaviour
 
     private Material instanceMaterial;
 
-    private TextMeshPro textObj;
+    public TextMeshPro textObj;
 
     // Awake is called before Start, to initialize the default color
     private void Awake()

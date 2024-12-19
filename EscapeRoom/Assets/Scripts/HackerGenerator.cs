@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using TMPro;
 using UnityEngine;
 
 public class HackerGenerator : MonoBehaviour
@@ -9,10 +10,10 @@ public class HackerGenerator : MonoBehaviour
     // Dictionary to store hacker names and their corresponding student names
     private readonly Dictionary<string, string> hackerProfiles = new Dictionary<string, string>()
     {
-        { "TheShadow", "John Doe" },
-        { "AcidBurn", "Jane Smith" },
-        { "ThePlague", "Sam Brown" },
-        { "CerealKiller", "Alex Johnson" },
+        { "TheShadow", "Jeff Jefferson" },
+        { "CerealKiller", "Anna Smith" },
+        { "ThePlague", "Taylor Carter" },
+        { "Neo", "Thomas Anderson" },
     };
 
     // Selected hacker name and student name
@@ -21,12 +22,16 @@ public class HackerGenerator : MonoBehaviour
     public string password;
     public EncryptionMethod encryptionMethod;
 
+    public StickyNote stickyNoteStudentName;
+    public StickyNote stickyNoteHackerName;
+    public StickyNote stickyNoteEncryptionMethod;
+
     public enum EncryptionMethod
     {
         Caesar,
         Vigenere,
         AES,
-        RSA,
+        //RSA,
     }
 
     public void PickRandomHackerProfile()
@@ -46,6 +51,10 @@ public class HackerGenerator : MonoBehaviour
         Debug.Log($"Student Name: {studentName}");
         Debug.Log($"Encrypted Password: {password}");
         Debug.Log($"Encryption Method Used: {encryptionMethod}");
+
+        stickyNoteHackerName.textObj.text = hackerName;
+        stickyNoteStudentName.textObj.text = studentName;
+        stickyNoteEncryptionMethod.textObj.text = encryptionMethod.ToString();
     }
 
     private string EncryptPassword(string plainPassword, EncryptionMethod method)
@@ -58,8 +67,8 @@ public class HackerGenerator : MonoBehaviour
                 return VigenereCipherEncrypt(plainPassword, "KEY");
             case EncryptionMethod.AES:
                 return AESEncrypt(plainPassword, "1234567812345678", "8765432187654321"); // Example 16-byte key and IV
-            case EncryptionMethod.RSA:
-                return RSAEncrypt(plainPassword, GetRSAPublicKey()); // Use RSA public key
+            //case EncryptionMethod.RSA:
+            //    return RSAEncrypt(plainPassword, GetRSAPublicKey()); // Use RSA public key
             default:
                 return plainPassword;
         }
