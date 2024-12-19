@@ -6,19 +6,19 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 public class CheckKey : MonoBehaviour
 {
     [SerializeField]
-    private Collider checkKeyArea;
+    private BoxCollider checkKeyArea;
 
     [SerializeField]
     private GameObject requiredKey;
 
-    private GameObject insertedObject;
-
     [SerializeField]
     private XRGrabInteractable XRGrabInteractable;
 
+    private GameObject insertedObject;
+
     private void Start()
     {
-        checkKeyArea = GetComponent<Collider>();
+        checkKeyArea = GetComponent<BoxCollider>();
         
         if (XRGrabInteractable != null)
             XRGrabInteractable.enabled = false;
