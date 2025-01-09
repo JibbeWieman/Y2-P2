@@ -50,6 +50,10 @@ public class StickyNote : MonoBehaviour
 
         if (objectRenderer != null)
         {
+            if (objectRenderer.sharedMaterial == null)
+            {
+                return;
+            }
             if (instanceMaterial == null)
             {
                 instanceMaterial = new Material(objectRenderer.sharedMaterial);
