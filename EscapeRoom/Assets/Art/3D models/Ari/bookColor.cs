@@ -16,6 +16,10 @@ public class bookColor : MonoBehaviour
 
         if (objectRenderer != null)
         {
+            if (objectRenderer.sharedMaterial == null)
+            {
+                return;
+            }
             if (objectMaterial == null) 
             {
                 objectMaterial = new Material(objectRenderer.sharedMaterial);
