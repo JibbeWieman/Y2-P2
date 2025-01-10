@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 7084014e4dafc0549b1f6dcaf04fbb73, type: 2}
     - target: {fileID: 919132149155446097, guid: d2057f2cf164b5646ad353f85e382c5e, type: 3}
       propertyPath: m_Name
-      value: key
+      value: Key
       objectReference: {fileID: 0}
     - target: {fileID: 1854488086544226109, guid: d2057f2cf164b5646ad353f85e382c5e, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -96,6 +96,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5123504913737722465}
   m_SourcePrefab: {fileID: 100100000, guid: d2057f2cf164b5646ad353f85e382c5e, type: 3}
+--- !u!4 &2547102157351112096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7297515675449522855, guid: d2057f2cf164b5646ad353f85e382c5e, type: 3}
+  m_PrefabInstance: {fileID: 4171208202235922681}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3828748061001840040 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d2057f2cf164b5646ad353f85e382c5e, type: 3}
@@ -143,7 +148,7 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_Colliders: []
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 1073741825
   m_DistanceCalculationMode: 1
   m_SelectMode: 0
   m_FocusMode: 1
@@ -200,7 +205,7 @@ MonoBehaviour:
   m_StartingHoverFilters: []
   m_StartingSelectFilters: []
   m_StartingInteractionStrengthFilters: []
-  m_AttachTransform: {fileID: 0}
+  m_AttachTransform: {fileID: 2547102157351112096}
   m_SecondaryAttachTransform: {fileID: 0}
   m_UseDynamicAttach: 1
   m_MatchAttachPosition: 1
@@ -208,7 +213,7 @@ MonoBehaviour:
   m_SnapToColliderVolume: 1
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
-  m_MovementType: 2
+  m_MovementType: 0
   m_VelocityDamping: 1
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
