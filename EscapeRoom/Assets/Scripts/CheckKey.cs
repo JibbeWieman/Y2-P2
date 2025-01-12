@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
@@ -38,6 +39,17 @@ public class CheckKey : MonoBehaviour
         Debug.Log("Correct key inserted");
         if (XRGrabInteractable != null)
             XRGrabInteractable.enabled = true;
+
+        if (insertedObject != null && insertedObject.CompareTag("USB Killer"))
+        {
+#if UNITY_EDITOR
+            Debug.Log("Detected USB Killer in Unity Editor. Stopping play mode.");
+            EditorApplication.isPlaying = false;
+#else
+            Debug.Log("Detected USB Killer in build. Quitting application.");
+            Application.Quit();
+#endif
+        }
     }
 
     private void OnTriggerEnter(Collider other)
