@@ -2763,6 +2763,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "LockInput",
+            "id": "7b26abe6-0437-4053-9b53-5cb388ed04f0",
+            "actions": [
+                {
+                    "name": "JoystickLeft",
+                    "type": "Value",
+                    "id": "cdc828d2-2c8b-4c3c-be88-aed10c86d68e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c044e785-be99-45ca-ba9e-64c287fcd36d",
+                    "path": "<XRController>{RightHand}/{Primary2DAxis}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JoystickLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
