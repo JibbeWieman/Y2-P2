@@ -12,12 +12,12 @@ public class HelpLine : MonoBehaviour
         IntroPlayed
     }
 
-    public void play()
+    public void Play()
     {
-        GetComponent<Animator>().GetBehaviour<HelpLineState>().play(gameObject);
+        GetComponent<Animator>().GetBehaviour<HelpLineState>().Play(gameObject);
     }
 
-    public void setParameter(Parameters parameter, bool value)
+    public void SetParameter(Parameters parameter, bool value)
     {
         GetComponent<Animator>().SetBool(ToDescriptionString(parameter), value);
     }

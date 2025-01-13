@@ -6,9 +6,9 @@ public abstract class HelpLineState : StateMachineBehaviour
 {
     [SerializeField] protected AudioClip[] sounds;
 
-    public abstract void play(GameObject gameObject);
+    public abstract void Play(GameObject gameObject);
 
-    protected int playSound(GameObject gameObject)
+    protected int PlaySound(GameObject gameObject)
     {
         AudioSource audio = gameObject.GetComponent<AudioSource>();
         int pickedLine = (int)(Random.value * sounds.Length);

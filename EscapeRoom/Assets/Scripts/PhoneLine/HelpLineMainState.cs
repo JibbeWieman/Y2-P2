@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HelpLineMain : HelpLineState
 {
-    override public void play(GameObject gameObject)
+    override public void Play(GameObject gameObject)
     {
-        playSound(gameObject);
+        PlaySound(gameObject);
     }
 }
