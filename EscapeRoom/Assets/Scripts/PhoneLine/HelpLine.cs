@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class HelpLine : MonoBehaviour
 {
@@ -13,16 +10,6 @@ public class HelpLine : MonoBehaviour
         DoneWithClues,
         [Description("introPlayed")]
         IntroPlayed
-    }
-
-    public UnityEvent playSound = new UnityEvent();
-
-    void Start()
-    {
-        playSound.AddListener(() =>
-        {
-            play();
-        });
     }
 
     public void play()
