@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
@@ -15,6 +14,7 @@ public class CombinationLock : MonoBehaviour
 
     [Header("Unlock Action")]
     [SerializeField, Tooltip("Action that happens when lock opens")] UnityEvent unlockAction;
+    [SerializeField, Tooltip("Door Rigidbody for unlocking the door")] private Rigidbody rb;
 
     [Header("Input (settings)")]
     [SerializeField, Tooltip("2D Axis input resembling the select action")] InputActionReference leftSelect;
@@ -23,11 +23,11 @@ public class CombinationLock : MonoBehaviour
     [SerializeField] float maxSelectDelay = 0.5f;
 
     // invisible variables
-    int digitSideAmount = 10;
-    bool active = false;
-    Vector3 savedLocation;
-    int currDigitIndex = 0;
-    float selectDelay = 0f;
+    private int digitSideAmount = 10;
+    private bool active = false;
+    private Vector3 savedLocation;
+    private int currDigitIndex = 0;
+    private float selectDelay = 0f;
 
 
     // storing the saved location
@@ -37,97 +37,123 @@ public class CombinationLock : MonoBehaviour
         indicator.gameObject.SetActive(false);
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            indicator.gameObject.SetActive(true);
+        }
+
+        active = true;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            indicator.gameObject.SetActive(false);
+        }
+
+        active = false;
+    }
+
     // getting the input
     void Update()
     {
+        Debug.Log($"Is Active: {active}     Select Delay: {selectDelay}     Current Digit Index: {currDigitIndex}");
         // reducing select delay
         selectDelay -= selectDelay > 0 ? Time.deltaTime : 0;
 
         // getting the input vector
         Vector2 input = leftSelect.action.ReadValue<Vector2>() + rightSelect.action.ReadValue<Vector2>(); // players can use both controllers  
 
-        // if controller is grabbed and no delay
-        if (!active && selectDelay <= 0)
-        {
-            // enabling the indicator
-            indicator.gameObject.SetActive(true);
+        Debug.Log(input);
 
+        // if controller is grabbed and no delay
+        if (active && selectDelay <= 0)
+        {
             // selecting target digit
-            if (input.y > joyThreshold)
+            if (input.x > joyThreshold)
             {
                 currDigitIndex = currDigitIndex > 0 ? currDigitIndex - 1 : digits.Length - 1;
                 selectDelay = maxSelectDelay;
             }
-            else if (input.y < -joyThreshold)
+            else if (input.x < -joyThreshold)
             {
                 currDigitIndex = currDigitIndex < digits.Length - 1 ? currDigitIndex + 1 : 0;
                 selectDelay = maxSelectDelay;
             }
 
             // selecting digit rotation
-            if (input.x > joyThreshold)
+            if (input.y > joyThreshold)
             {
                 TurnLock(currDigitIndex, true);
                 selectDelay = maxSelectDelay;
             }
-            else if (input.x < -joyThreshold)
+            else if (input.y < -joyThreshold)
             {
                 TurnLock(currDigitIndex, false);
                 selectDelay = maxSelectDelay;
             }
 
             // displaying currently selected digit
-            indicator.localPosition = new Vector3(indicator.localPosition.x, digits[currDigitIndex].localPosition.y, indicator.localPosition.z);
+            Transform CurrentDigit = digits[currDigitIndex];
+            indicator.localPosition = new Vector3(CurrentDigit.localPosition.x, CurrentDigit.localPosition.y +.65f, CurrentDigit.localPosition.z -1.08059464f);
 
             // confirm combination
             //if (leftConfirm.action.WasPressedThisFrame() || rightConfirm.action.WasPressedThisFrame()) {
             bool correct = true;
-
-            // looping all digits to check if any are false
             for (int i = 0; i < digitValues.Length; i++)
             {
                 if (digitValues[i] != correctCombination[i])
+                {
                     correct = false;
+                    break; // Exit early if any digit is incorrect
+                }
             }
 
-            // if all are correct unlock
             if (correct)
+            {
                 unlockAction.Invoke();
+                Debug.Log("Code Correct!");
+            }
             //}
         }
         else if (!active)
         {
             // set position to saved location
             transform.position = savedLocation;
-
-            // disabling the indicator
-            indicator.gameObject.SetActive(true);
         }
-        else
+        else if (Mathf.Abs(input.y) < joyThreshold && Mathf.Abs(input.x) < joyThreshold)
         {
-            // resetting delay if no button pressed
-            if (-joyThreshold < input.y && input.y < joyThreshold && -joyThreshold < input.x && input.x < joyThreshold)
-                selectDelay = 0;
+            selectDelay = 0;
         }
-    }
-
-    public void GrabLock(bool grabbed)
-    {
-        active = grabbed;
     }
 
     public void TurnLock(int digitIndex, bool clockwise)
     {
+        // Calculate the rotation increment
+        float rotationStep = 360f / digitSideAmount;
+
+        // Adjust the rotation
         Vector3 newRot = digits[digitIndex].localEulerAngles;
-        newRot.x += 360 / digitSideAmount * (clockwise ? 1 : -1);
+        newRot.x += clockwise ? -rotationStep : rotationStep; // Clockwise rotation in local space
+
+        // Apply the new rotation
         digits[digitIndex].localRotation = Quaternion.Euler(newRot);
 
-        // Updating the value
-        digitValues[digitIndex] += clockwise ? 1 : -1;
-        if (digitValues[digitIndex] < 0 || digitValues[digitIndex] > 9)
-        { // Looping back
-            digitValues[digitIndex] = digitValues[digitIndex] < 0 ? 9 : 0;
-        }
+        // Update digit value with wrapping
+        digitValues[digitIndex] = (digitValues[digitIndex] + (clockwise ? 1 : -1) + digitSideAmount) % digitSideAmount;
+
+        Debug.Log($"Digit {digitIndex} rotated to {newRot.x} degrees. Current Value: {digitValues[digitIndex]}");
+    }
+
+    public void Unlock()
+    {
+        rb.useGravity = true;
+        rb.isKinematic = false;
+
+        // Apply torque to rotate on the x-axis
+        rb.AddTorque(Vector3.left * 1f, ForceMode.Impulse);
     }
 }
 /* #if UNITY_EDITOR

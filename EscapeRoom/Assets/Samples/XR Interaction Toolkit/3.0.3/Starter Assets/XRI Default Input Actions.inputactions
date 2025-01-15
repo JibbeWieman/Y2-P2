@@ -2783,7 +2783,7 @@
                     "name": "",
                     "id": "7cc37b4e-7944-4883-bea7-f988338c7bce",
                     "path": "<XRController>{RightHand}/{Primary2DAxis}",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Joystick Right",
