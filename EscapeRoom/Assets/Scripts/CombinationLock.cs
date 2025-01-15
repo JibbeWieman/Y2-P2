@@ -34,7 +34,7 @@ public class CombinationLock : MonoBehaviour
     void Start()
     {
         savedLocation = transform.position;
-        //indicator.gameObject.SetActive(false);
+        indicator.gameObject.SetActive(false);
     }
 
     // getting the input
@@ -44,7 +44,7 @@ public class CombinationLock : MonoBehaviour
         selectDelay -= selectDelay > 0 ? Time.deltaTime : 0;
 
         // getting the input vector
-        Vector2 input = leftSelect.action.ReadValue<Vector2>() + leftSelect.action.ReadValue<Vector2>(); // players can use both controllers  
+        Vector2 input = leftSelect.action.ReadValue<Vector2>() + rightSelect.action.ReadValue<Vector2>(); // players can use both controllers  
 
         // if controller is grabbed and no delay
         if (!active && selectDelay <= 0)
@@ -67,17 +67,17 @@ public class CombinationLock : MonoBehaviour
             // selecting digit rotation
             if (input.x > joyThreshold)
             {
-                turnLock(currDigitIndex, true);
+                TurnLock(currDigitIndex, true);
                 selectDelay = maxSelectDelay;
             }
             else if (input.x < -joyThreshold)
             {
-                turnLock(currDigitIndex, false);
+                TurnLock(currDigitIndex, false);
                 selectDelay = maxSelectDelay;
             }
 
             // displaying currently selected digit
-            //indicator.localPosition = new Vector3(indicator.localPosition.x, digits[currDigitIndex].localPosition.y, indicator.localPosition.z);
+            indicator.localPosition = new Vector3(indicator.localPosition.x, digits[currDigitIndex].localPosition.y, indicator.localPosition.z);
 
             // confirm combination
             //if (leftConfirm.action.WasPressedThisFrame() || rightConfirm.action.WasPressedThisFrame()) {
@@ -116,22 +116,21 @@ public class CombinationLock : MonoBehaviour
         active = grabbed;
     }
 
-    public void turnLock(int digitIndex, bool clockwise)
+    public void TurnLock(int digitIndex, bool clockwise)
     {
-        // turning the digit around
         Vector3 newRot = digits[digitIndex].localEulerAngles;
-        newRot.y += 360 / digitSideAmount * (clockwise ? 1 : -1);
+        newRot.x += 360 / digitSideAmount * (clockwise ? 1 : -1);
         digits[digitIndex].localRotation = Quaternion.Euler(newRot);
 
-        // updating the value
+        // Updating the value
         digitValues[digitIndex] += clockwise ? 1 : -1;
         if (digitValues[digitIndex] < 0 || digitValues[digitIndex] > 9)
-        { // looping back
+        { // Looping back
             digitValues[digitIndex] = digitValues[digitIndex] < 0 ? 9 : 0;
         }
     }
 }
-#if UNITY_EDITOR
+/* #if UNITY_EDITOR
 // Buttons in the inspector
 [CustomEditor(typeof(CombinationLock))]
 public class CombLockEditor : Editor
@@ -147,32 +146,32 @@ public class CombLockEditor : Editor
             GUILayout.Space(10);
             if (GUILayout.Button("Slot 0 anti-clockwise"))
             {
-                lockEditor.turnLock(0, false);
+                lockEditor.TurnLock(0, false);
             }
             if (GUILayout.Button("Slot 0 clockwise"))
             {
-                lockEditor.turnLock(0, true);
+                lockEditor.TurnLock(0, true);
             }
             GUILayout.Space(10);
             if (GUILayout.Button("Slot 1 anti-clockwise"))
             {
-                lockEditor.turnLock(1, false);
+                lockEditor.TurnLock(1, false);
             }
             if (GUILayout.Button("Slot 1 clockwise"))
             {
-                lockEditor.turnLock(1, true);
+                lockEditor.TurnLock(1, true);
             }
             GUILayout.Space(10);
             if (GUILayout.Button("Slot 2 anti-clockwise"))
             {
-                lockEditor.turnLock(2, false);
+                lockEditor.TurnLock(2, false);
             }
             if (GUILayout.Button("Slot 2 clockwise"))
             {
-                lockEditor.turnLock(2, true);
+                lockEditor.TurnLock(2, true);
             }
 
         }
     }
 }
-#endif
+#endif */

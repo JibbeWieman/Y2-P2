@@ -33,7 +33,7 @@ public class CheckKey : MonoBehaviour
         }
     }
 
-    private void UnlockLock()
+    public void UnlockLock()
     {
         //something
         Debug.Log("Correct key inserted");
