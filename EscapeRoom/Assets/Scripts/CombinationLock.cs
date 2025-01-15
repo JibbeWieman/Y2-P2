@@ -131,7 +131,7 @@ public class CombinationLock : MonoBehaviour
         }
     }
 }
-
+#if UNITY_EDITOR
 // Buttons in the inspector
 [CustomEditor(typeof(CombinationLock))]
 public class CombLockEditor : Editor
@@ -175,3 +175,4 @@ public class CombLockEditor : Editor
         }
     }
 }
+#endif

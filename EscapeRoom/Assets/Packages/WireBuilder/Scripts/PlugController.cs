@@ -14,8 +14,10 @@ public class PlugController : MonoBehaviour
     public Transform endAnchor;
     [HideInInspector]
     public Rigidbody endAnchorRB;
+    #if UNITY_EDITOR
     [HideInInspector]
     public WireController wireController;
+    #endif
     public void OnPlugged()
     {
         OnWirePlugged.Invoke();
