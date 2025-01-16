@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class HelpLine : MonoBehaviour
 {
+    private Animator animator;
+
+    public void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     public enum Parameters {
         [Description("loggedIn")]
         LoggedIn,
@@ -14,12 +21,12 @@ public class HelpLine : MonoBehaviour
 
     public void Play()
     {
-        GetComponent<Animator>().GetBehaviour<HelpLineState>().Play(gameObject);
+        animator.GetBehaviour<HelpLineState>().Play(gameObject);
     }
 
     public void SetParameter(Parameters parameter, bool value)
     {
-        GetComponent<Animator>().SetBool(ToDescriptionString(parameter), value);
+        animator.SetBool(ToDescriptionString(parameter), value);
     }
 
     private static string ToDescriptionString(Parameters val)
