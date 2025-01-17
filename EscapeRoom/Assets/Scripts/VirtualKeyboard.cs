@@ -13,8 +13,7 @@ public class VirtualKeyboard : MonoBehaviour
     [SerializeField]
     private GameObject LogInPanel, StudentLogInPanel;
 
-    [SerializeField]
-    private string teacherPassword = "iDontKnow";
+    private string teacherPassword;
 
     [SerializeField]
     private HelpLine helpLine;
@@ -33,6 +32,8 @@ public class VirtualKeyboard : MonoBehaviour
         StudentLogInPanel.SetActive(false);
         hackerID = FindAnyObjectByType<Randomizer>();
         inputField = LogInPanel.GetComponentInChildren<TMP_InputField>();
+
+        teacherPassword = hackerID.teacherPassword;
 
         inputField.characterLimit = characterLimit;
         inputField.onSubmit.AddListener(ValidateAnswer);
@@ -80,7 +81,7 @@ public class VirtualKeyboard : MonoBehaviour
                     break;
 
                 case true:
-                    if (inputText == hackerID.password)
+                    if (inputText == hackerID.hackerPassword)
                     {
                         passwordGuessed = true;
                         inputField.text = null;

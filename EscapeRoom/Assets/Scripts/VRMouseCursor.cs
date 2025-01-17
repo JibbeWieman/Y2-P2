@@ -168,7 +168,6 @@ public class VRMouseCursor : MonoBehaviour
     #endregion
 
     #region Collision Handling
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject != this)

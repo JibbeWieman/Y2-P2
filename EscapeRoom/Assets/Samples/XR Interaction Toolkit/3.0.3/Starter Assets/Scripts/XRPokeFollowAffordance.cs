@@ -116,9 +116,9 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         IMultiPokeStateDataProvider m_MultiPokeStateDataProvider;
 
 #pragma warning disable CS0618 // Type or member is obsolete
-        readonly Vector3TweenableVariable m_TransformTweenableVariable = new Vector3TweenableVariable();
+        readonly Vector3TweenableVariable m_TransformTweenableVariable = new();
 #pragma warning restore CS0618 // Type or member is obsolete
-        readonly BindingsGroup m_BindingsGroup = new BindingsGroup();
+        readonly BindingsGroup m_BindingsGroup = new();
         Vector3 m_InitialPosition;
         bool m_IsFirstFrame;
 
