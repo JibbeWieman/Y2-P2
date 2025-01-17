@@ -13,7 +13,7 @@ public class Randomizer : MonoBehaviour
         { "TheShadow", "Jeff Jansen" },
         { "CerealKiller", "Anna Smid" },
         { "ThePlague", "René Carter" },
-        { "Neo", "Alex Bakker" },
+        { "Neo", "Thomas Bakker" },
     };
 
     // Selected hacker name and student name
