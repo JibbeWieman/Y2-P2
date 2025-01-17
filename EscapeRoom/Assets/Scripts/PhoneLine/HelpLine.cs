@@ -5,6 +5,11 @@ public class HelpLine : MonoBehaviour
 {
     private Animator animator;
 
+    //public bool checkLastEdited = false;
+    //public bool unlockedDrawer = false;
+    //public bool foundQRCode = false;
+
+
     public void Start()
     {
         animator = GetComponent<Animator>();
@@ -22,6 +27,7 @@ public class HelpLine : MonoBehaviour
     public void Play()
     {
         animator.GetBehaviour<HelpLineState>().Play(gameObject);
+        SetParameter(Parameters.IntroPlayed, true);
     }
 
     public void SetParameter(Parameters parameter, bool value)

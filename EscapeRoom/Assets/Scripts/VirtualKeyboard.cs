@@ -16,6 +16,9 @@ public class VirtualKeyboard : MonoBehaviour
     [SerializeField]
     private string teacherPassword = "iDontKnow";
 
+    [SerializeField]
+    private HelpLine helpLine;
+
     private Randomizer hackerID;
 
     private bool loggedIn = false;
@@ -44,6 +47,7 @@ public class VirtualKeyboard : MonoBehaviour
             // Check teacher password
             if (inputText == teacherPassword)
             {
+                helpLine.SetParameter(HelpLine.Parameters.LoggedIn, true);
                 loggedIn = true;
                 inputField.text = null;
                 Console.WriteLine("Teacher logged in. Opening Student Login Panel.");
