@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 8300000, guid: c7237bb904e9ddf4da6aa56c9cb37602, type: 3}
+  - {fileID: 8300000, guid: c8469ed32d432874094fdda351491d6c, type: 3}
   removeSoundOnPlay: 0
 --- !u!114 &-3578747421751262592
 MonoBehaviour:
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 2adc44e6c52c9bd408f730def10b973d, type: 3}
   removeSoundOnPlay: 0
 --- !u!1101 &-1013921796627203614
 AnimatorStateTransition:
@@ -196,9 +196,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 20c12494fbd0d2e46a93cb677fe320c2, type: 3}
+  - {fileID: 8300000, guid: 7c2e0d8aa352cef45bddde5dcb30808d, type: 3}
+  - {fileID: 8300000, guid: 9bad6409709372340880e28642e247ea, type: 3}
   removeSoundOnPlay: 1
 --- !u!1101 &2248800942862212721
 AnimatorStateTransition:
@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 7c2cdb48bc27d1647aed2391d34c450d, type: 3}
   removeSoundOnPlay: 0
 --- !u!1102 &6405712020782404593
 AnimatorState:
