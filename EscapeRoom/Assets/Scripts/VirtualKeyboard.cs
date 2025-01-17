@@ -16,7 +16,7 @@ public class VirtualKeyboard : MonoBehaviour
     [SerializeField]
     private string teacherPassword = "iDontKnow";
 
-    private HackerGenerator hackerID;
+    private Randomizer hackerID;
 
     private bool loggedIn = false;
     private bool nameGuessed = false; // Bool to track the match status.
@@ -28,7 +28,7 @@ public class VirtualKeyboard : MonoBehaviour
     void Start()
     {
         StudentLogInPanel.SetActive(false);
-        hackerID = FindAnyObjectByType<HackerGenerator>();
+        hackerID = FindAnyObjectByType<Randomizer>();
         inputField = LogInPanel.GetComponentInChildren<TMP_InputField>();
 
         inputField.characterLimit = characterLimit;

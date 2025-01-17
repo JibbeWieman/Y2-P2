@@ -5,15 +5,15 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 
-public class HackerGenerator : MonoBehaviour
+public class Randomizer : MonoBehaviour
 {
     // Dictionary to store hacker names and their corresponding student names
-    private readonly Dictionary<string, string> hackerProfiles = new Dictionary<string, string>()
+    private readonly Dictionary<string, string> hackerProfiles = new()
     {
-        { "TheShadow", "Jeff Jefferson" },
-        { "CerealKiller", "Anna Smith" },
-        { "ThePlague", "Taylor Carter" },
-        { "Neo", "Thomas Anderson" },
+        { "TheShadow", "Jeff Jansen" },
+        { "CerealKiller", "Anna Smid" },
+        { "ThePlague", "René Carter" },
+        { "Neo", "Alex Bakker" },
     };
 
     // Selected hacker name and student name
@@ -26,12 +26,50 @@ public class HackerGenerator : MonoBehaviour
     public StickyNote stickyNoteHackerName;
     public StickyNote stickyNoteEncryptionMethod;
 
+    [SerializeField]
+    private GameObject[] logInStickyNotes;
+    private readonly List<string> logInPasswords = new()
+    {
+        { "GeenIdee"},
+        { "Wachtwoord" },
+        { "School123" },
+    };
+
     public enum EncryptionMethod
     {
         Caesar,
         Vigenere,
-        AES,
-        //RSA,
+        Atbash,
+        RailWayFence,
+    }
+
+    private void Start()
+    {
+        RandomizedLogIn();
+    }
+
+    private void RandomizedLogIn()
+    {
+        // Disable all sticky notes
+        foreach (GameObject stickyNote in logInStickyNotes)
+        {
+            stickyNote.SetActive(false);
+        }
+
+        // Enable a random sticky note and assign a random password
+        if (logInStickyNotes.Length > 0)
+        {
+            int randomStickyNoteIndex = UnityEngine.Random.Range(0, logInStickyNotes.Length);
+            StickyNote selectedStickyNote = logInStickyNotes[randomStickyNoteIndex].GetComponent<StickyNote>();
+            selectedStickyNote.gameObject.SetActive(true);
+
+            // Pick a random login password from the list
+            if (logInPasswords.Count > 0)
+            {
+                string randomPassword = logInPasswords[UnityEngine.Random.Range(0, logInPasswords.Count)];
+                selectedStickyNote.textObj.text = "Log In: " + randomPassword;
+            }
+        }
     }
 
     public void PickRandomHackerProfile()
@@ -65,10 +103,10 @@ public class HackerGenerator : MonoBehaviour
                 return CaesarCipherEncrypt(plainPassword, 3); // Shift by 3
             case EncryptionMethod.Vigenere:
                 return VigenereCipherEncrypt(plainPassword, "KEY");
-            case EncryptionMethod.AES:
-                return AESEncrypt(plainPassword, "1234567812345678", "8765432187654321"); // Example 16-byte key and IV
-            //case EncryptionMethod.RSA:
-            //    return RSAEncrypt(plainPassword, GetRSAPublicKey()); // Use RSA public key
+            case EncryptionMethod.Atbash:
+                return AtbashCipherEncrypt(plainPassword);
+            case EncryptionMethod.RailWayFence:
+                return RailwayFenceCipherEncrypt(plainPassword, 3); // Use 3 rails as default
             default:
                 return plainPassword;
         }
@@ -111,42 +149,51 @@ public class HackerGenerator : MonoBehaviour
         return new string(buffer);
     }
 
-    private string AESEncrypt(string input, string key, string iv)
+    private string AtbashCipherEncrypt(string input)
     {
-        using (Aes aes = Aes.Create())
-        {
-            aes.Key = Encoding.UTF8.GetBytes(key);
-            aes.IV = Encoding.UTF8.GetBytes(iv);
+        char[] buffer = input.ToCharArray();
 
-            ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-            using (var memoryStream = new System.IO.MemoryStream())
-            using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+        for (int i = 0; i < buffer.Length; i++)
+        {
+            char letter = buffer[i];
+
+            if (char.IsLetter(letter))
             {
-                using (var writer = new System.IO.StreamWriter(cryptoStream))
-                {
-                    writer.Write(input);
-                }
-                return Convert.ToBase64String(memoryStream.ToArray());
+                char offset = char.IsUpper(letter) ? 'A' : 'a';
+                letter = (char)(offset + ('Z' - char.ToUpper(letter)));
             }
+            buffer[i] = letter;
         }
+
+        return new string(buffer);
     }
 
-    private string RSAEncrypt(string input, string publicKey)
+    private string RailwayFenceCipherEncrypt(string input, int numRails)
     {
-        using (var rsa = new RSACryptoServiceProvider())
+        if (numRails <= 1) return input;
+
+        List<StringBuilder> rails = new();
+        for (int i = 0; i < numRails; i++)
+            rails.Add(new StringBuilder());
+
+        int currentRail = 0;
+        int direction = 1; // 1 for down, -1 for up
+
+        foreach (char c in input)
         {
-            rsa.FromXmlString(publicKey);
-            byte[] encryptedData = rsa.Encrypt(Encoding.UTF8.GetBytes(input), false);
-            return Convert.ToBase64String(encryptedData);
-        }
-    }
+            rails[currentRail].Append(c);
+            currentRail += direction;
 
-    private string GetRSAPublicKey()
-    {
-        // Replace with a real RSA public key
-        return @"<RSAKeyValue>
-                    <Modulus>woxL2zLsPVjl3XQmNnUnnmLhsKDaV4WxxzJvd+75mTp3zB0Lt4BTkrZYoz/uX8f3X9KUOFAF3r6TTpNZnFnC/x==</Modulus>
-                    <Exponent>AQAB</Exponent>
-                 </RSAKeyValue>";
+            if (currentRail == 0 || currentRail == numRails - 1)
+                direction *= -1;
+        }
+
+        StringBuilder encrypted = new();
+        foreach (var rail in rails)
+        {
+            encrypted.Append(rail);
+        }
+
+        return encrypted.ToString();
     }
 }

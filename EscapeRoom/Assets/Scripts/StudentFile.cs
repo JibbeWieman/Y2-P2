@@ -8,7 +8,7 @@ public class StudentFile : MonoBehaviour
     public List<GameObject> files; // List of GameObjects containing TMP components
 
     [Header("Hacker Generator Reference")]
-    public HackerGenerator hackerGenerator;
+    public Randomizer hackerGenerator;
 
     private Dictionary<string, string> studentProfiles = new Dictionary<string, string>()
     {
