@@ -28,6 +28,10 @@ public class HelpLine : MonoBehaviour
     {
         animator.GetBehaviour<HelpLineState>().Play(gameObject);
         SetParameter(Parameters.IntroPlayed, true);
+        if (!animator.GetBehaviour<HelpLineState>().AnyValidSounds())
+        {
+            SetParameter(Parameters.DoneWithClues, true);
+        }
     }
 
     public void SetParameter(Parameters parameter, bool value)

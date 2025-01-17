@@ -71,6 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - {fileID: 8300000, guid: c7237bb904e9ddf4da6aa56c9cb37602, type: 3}
+  removeSoundOnPlay: 0
 --- !u!114 &-3578747421751262592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85,6 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - {fileID: 0}
+  removeSoundOnPlay: 0
 --- !u!1101 &-1013921796627203614
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -197,6 +199,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  removeSoundOnPlay: 1
 --- !u!1101 &2248800942862212721
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -340,6 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - {fileID: 0}
+  removeSoundOnPlay: 0
 --- !u!1102 &6405712020782404593
 AnimatorState:
   serializedVersion: 6
