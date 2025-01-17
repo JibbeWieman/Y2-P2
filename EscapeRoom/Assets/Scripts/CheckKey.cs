@@ -15,6 +15,9 @@ public class CheckKey : MonoBehaviour
     [SerializeField]
     private XRGrabInteractable XRGrabInteractable;
 
+    [SerializeField]
+    private GameObject[] papers;
+
     private GameObject insertedObject;
 
     private void Start()
@@ -23,6 +26,7 @@ public class CheckKey : MonoBehaviour
         
         if (XRGrabInteractable != null)
             XRGrabInteractable.enabled = false;
+        setPaperLocked(true);
     }
 
     public void CheckIfKey()
@@ -49,6 +53,16 @@ public class CheckKey : MonoBehaviour
             Debug.Log("Detected USB Killer in build. Quitting application.");
             Application.Quit();
 #endif
+        }
+
+        setPaperLocked(false);
+    }
+
+    private void setPaperLocked(bool locked)
+    {
+        foreach (GameObject paper in papers)
+        {
+            paper.GetComponent<XRGrabInteractable>().enabled = !locked;
         }
     }
 
