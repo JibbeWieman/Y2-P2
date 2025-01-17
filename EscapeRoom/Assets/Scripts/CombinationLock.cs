@@ -59,14 +59,14 @@ public class CombinationLock : MonoBehaviour
     // getting the input
     void Update()
     {
-        Debug.Log($"Is Active: {active}     Select Delay: {selectDelay}     Current Digit Index: {currDigitIndex}");
+        //Debug.Log($"Is Active: {active}     Select Delay: {selectDelay}     Current Digit Index: {currDigitIndex}");
         // reducing select delay
         selectDelay -= selectDelay > 0 ? Time.deltaTime : 0;
 
         // getting the input vector
         Vector2 input = leftSelect.action.ReadValue<Vector2>() + rightSelect.action.ReadValue<Vector2>(); // players can use both controllers  
 
-        Debug.Log(input);
+        //Debug.Log(input);
 
         // if controller is grabbed and no delay
         if (active && selectDelay <= 0)

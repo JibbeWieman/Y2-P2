@@ -67,7 +67,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: d94af3efb5b0e5245a9adf4c32db6a8f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 05f9101a5155dfe49ab60a93dd536702, type: 2}
+      objectReference: {fileID: 2100000, guid: 74314bb2c9c8cda43b2562f0eb4ff6b8, type: 2}
     - target: {fileID: 919132149155446097, guid: d94af3efb5b0e5245a9adf4c32db6a8f, type: 3}
       propertyPath: m_Name
       value: BinaryToDecimal Poster
