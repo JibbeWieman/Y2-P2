@@ -1380,7 +1380,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2486560350935046489}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
@@ -1397,7 +1397,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2486560350935046489}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
   m_Name: 
@@ -1424,7 +1424,7 @@ MonoBehaviour:
   characterLimit: 16
   LogInPanel: {fileID: 7844803548684972613}
   StudentLogInPanel: {fileID: 738991884884957922}
-  teacherPassword: iDontKnow
+  helpLine: {fileID: 0}
 --- !u!1 &2660550861638214996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,8 +1904,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkKeyArea: {fileID: 6688895937474452903}
-  requiredKey: {fileID: 0}
+  requiredObject: {fileID: 11400000, guid: c905c64271c5198478a790e7492e9596, type: 2}
   XRGrabInteractable: {fileID: 0}
+  papers: []
 --- !u!1 &3015329144796641050
 GameObject:
   m_ObjectHideFlags: 0
@@ -6939,7 +6940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fdc2fb3a8c154184b9c798908a0b2a47, type: 3}
       propertyPath: m_Name
-      value: Laptop
+      value: laptop
       objectReference: {fileID: 0}
     - target: {fileID: 3937756538488321772, guid: fdc2fb3a8c154184b9c798908a0b2a47, type: 3}
       propertyPath: m_Name

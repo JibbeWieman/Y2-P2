@@ -10,6 +10,8 @@ public class CheckKey : MonoBehaviour
     private BoxCollider checkKeyArea;
 
     [SerializeField]
+    private SceneTypeObject requiredObject;
+
     private GameObject requiredKey;
 
     [SerializeField]
@@ -27,6 +29,8 @@ public class CheckKey : MonoBehaviour
         if (XRGrabInteractable != null)
             XRGrabInteractable.enabled = false;
         setPaperLocked(true);
+
+        requiredKey = requiredObject.Objects[0];
     }
 
     public void CheckIfKey()

@@ -118,23 +118,23 @@ public class VirtualKeyboard : MonoBehaviour
     }
 
     // Method for handling Shift key press
-    public void OnShiftPress(bool isPressed)
-    {
-        if (isPressed)
-        {
-            // Shift pressed: Temporarily toggle Caps Lock
-            isShiftHeld = true;
-            isCapsLockOn = !isCapsLockOn;
-        }
-        else
-        {
-            // Shift released: Revert Caps Lock state
-            isShiftHeld = false;
-            isCapsLockOn = !isCapsLockOn;
-        }
+    //public void OnShiftPress(bool isPressed)
+    //{
+    //    if (isPressed)
+    //    {
+    //        // Shift pressed: Temporarily toggle Caps Lock
+    //        isShiftHeld = true;
+    //        isCapsLockOn = !isCapsLockOn;
+    //    }
+    //    else
+    //    {
+    //        // Shift released: Revert Caps Lock state
+    //        isShiftHeld = false;
+    //        isCapsLockOn = !isCapsLockOn;
+    //    }
 
-        Debug.Log($"Shift {(isPressed ? "Pressed" : "Released")}, Caps Lock: {isCapsLockOn}");
-    }
+    //    Debug.Log($"Shift {(isPressed ? "Pressed" : "Released")}, Caps Lock: {isCapsLockOn}");
+    //}
 
     // Method for handling the spacebar
     public void OnSpacePress()
