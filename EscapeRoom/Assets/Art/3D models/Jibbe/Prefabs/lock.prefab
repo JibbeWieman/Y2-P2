@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1596885077555615565}
   - component: {fileID: 6513790971820207312}
   m_Layer: 0
-  m_Name: KeyHole
+  m_Name: Inside
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1460,7 +1460,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: c9973e6c214aa5c4da09f9189e6b40c4, type: 2}
     - target: {fileID: 919132149155446097, guid: 7cfa8a7e45eb8b04181362c696122179, type: 3}
       propertyPath: m_Name
-      value: lock 1
+      value: lock
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1471,42 +1471,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cfa8a7e45eb8b04181362c696122179, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7471344212629224967}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cfa8a7e45eb8b04181362c696122179, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1993399312190403563}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cfa8a7e45eb8b04181362c696122179, type: 3}
 --- !u!4 &5094494313365966347 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cfa8a7e45eb8b04181362c696122179, type: 3}
   m_PrefabInstance: {fileID: 4700067973234190816}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5618406812804797617 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7cfa8a7e45eb8b04181362c696122179, type: 3}
-  m_PrefabInstance: {fileID: 4700067973234190816}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1993399312190403563
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5618406812804797617}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.731095, y: 2.46962, z: 2.4696207}
-  m_Center: {x: -0.479533, y: 0.0061972067, z: -0.0000056822173}
 --- !u!1001 &7898382407275094687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1667,5 +1638,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkKeyArea: {fileID: 3052046250420428756}
-  requiredKey: {fileID: 0}
+  requiredObject: {fileID: 11400000, guid: 7ce33ec006203484d9096d7827f156e9, type: 2}
   XRGrabInteractable: {fileID: 0}
+  papers: []
