@@ -63,7 +63,6 @@ GameObject:
   - component: {fileID: 8973059316437071402}
   - component: {fileID: 759758876000412940}
   - component: {fileID: 6274845579235642081}
-  - component: {fileID: 6428942624997634927}
   m_Layer: 0
   m_Name: Ceiling
   m_TagString: Untagged
@@ -203,28 +202,6 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3808622300315132857}
-  m_Mesh: {fileID: 0}
---- !u!64 &6428942624997634927
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3808622300315132857}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1001 &1178978482024506535
 PrefabInstance:
@@ -2195,7 +2172,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 2c3cb95fb5822a64a919b7acf570a1f4, type: 3}
 --- !u!4 &4432470019246207128 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 7013254763700737267, guid: 2c3cb95fb5822a64a919b7acf570a1f4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4243546417584974121, guid: 2c3cb95fb5822a64a919b7acf570a1f4, type: 3}
   m_PrefabInstance: {fileID: 6689919070597276779}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6981879838377661798
