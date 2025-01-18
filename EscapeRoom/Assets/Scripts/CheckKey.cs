@@ -28,7 +28,7 @@ public class CheckKey : MonoBehaviour
         
         if (XRGrabInteractable != null)
             XRGrabInteractable.enabled = false;
-        setPaperLocked(true);
+        SetPaperLocked(true);
 
         requiredKey = requiredObject.Objects[0];
     }
@@ -59,10 +59,10 @@ public class CheckKey : MonoBehaviour
 #endif
         }
 
-        setPaperLocked(false);
+        SetPaperLocked(false);
     }
 
-    private void setPaperLocked(bool locked)
+    private void SetPaperLocked(bool locked)
     {
         foreach (GameObject paper in papers)
         {

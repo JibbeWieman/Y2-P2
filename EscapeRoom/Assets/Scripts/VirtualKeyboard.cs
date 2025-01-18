@@ -22,9 +22,9 @@ public class VirtualKeyboard : MonoBehaviour
 
     private bool loggedIn = false;
     private bool nameGuessed = false; // Bool to track the match status.
-    private bool passwordGuessed = false; // Bool to track the match status.
+    //private bool passwordGuessed = false; // Bool to track the match status.
     private bool isCapsLockOn = false; // Tracks the state of Caps Lock.
-    private bool isShiftHeld = false; // Tracks if Shift is currently held down.
+    //private bool isShiftHeld = false; // Tracks if Shift is currently held down.
 
 
     void Start()
@@ -83,7 +83,7 @@ public class VirtualKeyboard : MonoBehaviour
                 case true:
                     if (inputText == hackerID.hackerPassword)
                     {
-                        passwordGuessed = true;
+                        //passwordGuessed = true;
                         inputField.text = null;
                         Console.WriteLine("Password guessed correctly! Access granted.");
                     }

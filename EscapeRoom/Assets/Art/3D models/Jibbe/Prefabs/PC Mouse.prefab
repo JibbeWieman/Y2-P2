@@ -111,6 +111,7 @@ MonoBehaviour:
   sensitivity: 10
   lerpSpeed: 10
   movementThreshold: 0
+  xrAimPosition: {fileID: 1966656715007546707, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   clickAction:
     m_Name: Click
     m_Type: 0

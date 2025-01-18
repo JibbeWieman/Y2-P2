@@ -2791,6 +2791,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "LaptopCursor",
+            "id": "537642c5-ac8f-49da-a3a9-cae0b0adc4a1",
+            "actions": [
+                {
+                    "name": "Position",
+                    "type": "Value",
+                    "id": "12fa16f6-89df-45d2-909b-0924209a18ff",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Vector 3 Fallback",
+                    "id": "ad93f8de-bbd1-41c6-8f7c-61a94587851a",
+                    "path": "Vector3Fallback",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Position",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "first",
+                    "id": "1d7ad358-8341-40d9-a7c8-50a331f04d3b",
+                    "path": "<XRController>{RightHand}/pointerPosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Position",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
         }
     ],
     "controlSchemes": []

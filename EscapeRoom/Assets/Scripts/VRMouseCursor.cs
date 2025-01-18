@@ -21,9 +21,14 @@ public class VRMouseCursor : MonoBehaviour
     private GameObject lastHoveredObject; // Last hovered UI object to handle hover exit events
     private bool canMove; // Flag to control movement
 
-    [SerializeField] private InputAction clickAction; // Input action for click
-
     #endregion
+
+    [Header("Input (settings)")]
+    [SerializeField, Tooltip("2D Axis input resembling the select action")] 
+    InputActionReference xrAimPosition;
+
+    [SerializeField] 
+    private InputAction clickAction; // Input action for click
 
     #region Unity Methods
 
@@ -47,6 +52,14 @@ public class VRMouseCursor : MonoBehaviour
     {
         MoveCursor();
         SimulateHover();
+
+        Vector3 aimPosition = xrAimPosition.action.ReadValue<Vector3>();
+        Debug.Log(aimPosition);
+
+        //if (aimPosition)
+        //{
+            //cursorImage = AimPosition;
+        //}
     }
 
     private void OnDestroy()
