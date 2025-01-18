@@ -19,7 +19,8 @@ public class Randomizer : MonoBehaviour
     // Selected hacker name and student name
     public string hackerName;
     public string studentName;
-    public string password;
+    public string hackerPassword;
+    public string teacherPassword;
     public EncryptionMethod encryptionMethod;
 
     public StickyNote stickyNoteStudentName;
@@ -43,7 +44,7 @@ public class Randomizer : MonoBehaviour
         RailWayFence,
     }
 
-    private void Start()
+    private void Awake()
     {
         RandomizedLogIn();
     }
@@ -66,8 +67,8 @@ public class Randomizer : MonoBehaviour
             // Pick a random login password from the list
             if (logInPasswords.Count > 0)
             {
-                string randomPassword = logInPasswords[UnityEngine.Random.Range(0, logInPasswords.Count)];
-                selectedStickyNote.textObj.text = "Log In: " + randomPassword;
+                teacherPassword = logInPasswords[UnityEngine.Random.Range(0, logInPasswords.Count)];
+                selectedStickyNote.textObj.text = "Log In: " + teacherPassword;
             }
         }
     }
@@ -82,17 +83,17 @@ public class Randomizer : MonoBehaviour
         // Generate a password for encryption
         string plainPassword = hackerName; // Use the hacker name as the base password
         encryptionMethod = (EncryptionMethod)UnityEngine.Random.Range(0, Enum.GetValues(typeof(EncryptionMethod)).Length);
-        password = EncryptPassword(plainPassword, encryptionMethod);
+        hackerPassword = EncryptPassword(plainPassword, encryptionMethod);
 
         // Debug output to the Unity Console
         Debug.Log($"Hacker Name: {hackerName}");
         Debug.Log($"Student Name: {studentName}");
-        Debug.Log($"Encrypted Password: {password}");
+        Debug.Log($"Encrypted Password: {hackerPassword}");
         Debug.Log($"Encryption Method Used: {encryptionMethod}");
 
-        stickyNoteHackerName.textObj.text = hackerName;
-        stickyNoteStudentName.textObj.text = studentName;
-        stickyNoteEncryptionMethod.textObj.text = encryptionMethod.ToString();
+        //stickyNoteHackerName.textObj.text = hackerName;
+        //stickyNoteStudentName.textObj.text = studentName;
+        //stickyNoteEncryptionMethod.textObj.text = encryptionMethod.ToString();
     }
 
     private string EncryptPassword(string plainPassword, EncryptionMethod method)
