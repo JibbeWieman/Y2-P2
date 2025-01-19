@@ -26,6 +26,11 @@ public class VirtualKeyboard : MonoBehaviour
     private bool isCapsLockOn = false; // Tracks the state of Caps Lock.
     //private bool isShiftHeld = false; // Tracks if Shift is currently held down.
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip successSFX, failureSFX;
 
     void Start()
     {
@@ -52,6 +57,7 @@ public class VirtualKeyboard : MonoBehaviour
                 loggedIn = true;
                 inputField.text = null;
                 Console.WriteLine("Teacher logged in. Opening Student Login Panel.");
+                audioSource.PlayOneShot(successSFX);
                 StudentLogInPanel.SetActive(true);
                 LogInPanel.SetActive(false);
                 inputField = StudentLogInPanel.GetComponentInChildren<TMP_InputField>();
@@ -59,6 +65,7 @@ public class VirtualKeyboard : MonoBehaviour
             else
             {
                 Console.WriteLine("Incorrect teacher password. Clearing input field.");
+                audioSource.PlayOneShot(failureSFX);
                 inputField.text = null;
             }
         }
@@ -73,10 +80,12 @@ public class VirtualKeyboard : MonoBehaviour
                         nameGuessed = true;
                         inputField.text = null;
                         Console.WriteLine("Name guessed correctly! Now guess the password.");
+                        audioSource.PlayOneShot(successSFX);
                     }
                     else
                     {
                         Console.WriteLine("Name is incorrect. Try again.");
+                        audioSource.PlayOneShot(failureSFX);
                     }
                     break;
 
@@ -86,10 +95,12 @@ public class VirtualKeyboard : MonoBehaviour
                         //passwordGuessed = true;
                         inputField.text = null;
                         Console.WriteLine("Password guessed correctly! Access granted.");
+                        audioSource.PlayOneShot(successSFX);
                     }
                     else
                     {
                         Console.WriteLine("Password is incorrect. Try again.");
+                        audioSource.PlayOneShot(failureSFX);
                     }
                     break;
             }
