@@ -9,11 +9,16 @@ namespace Unity.FPS.Game
     public static class Events
     {
         // Jibbe's Events
-        public static ValidateAnswerEvent ValidateAnswerEvent = new ValidateAnswerEvent();
+        public static ValidateAnswerEvent ValidateAnswerEvent = new();
+        public static ClickEvent ClickEvent = new();
 
     }
 
     // Jibbe's Events
+    public class ClickEvent : GameEvent
+    {
+    }
+
     public class ValidateAnswerEvent : GameEvent
     {
         private string _answer;
@@ -27,6 +32,5 @@ namespace Unity.FPS.Game
                 EventManager.Broadcast(Events.ValidateAnswerEvent);
             }
         }
-
     }
 }

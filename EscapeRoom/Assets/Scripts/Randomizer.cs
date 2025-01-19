@@ -1,40 +1,33 @@
-using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Text;
-using TMPro;
 using UnityEngine;
 
 public class Randomizer : MonoBehaviour
 {
-    // Dictionary to store hacker names and their corresponding student names
-    private readonly Dictionary<string, string> hackerProfiles = new()
+    [Tooltip("Possible Student Hacker Profiles")]
+    private readonly Dictionary<string, string> studentProfiles = new()
     {
-        { "TheShadow", "Jeff Jansen" },
-        { "CerealKiller", "Anna Smid" },
-        { "ThePlague", "René Carter" },
-        { "Neo", "Thomas Bakker" },
+        { "j.jansen@noorderpoort.nl", "Jeff Jansen" },
+        { "a.smid@noorderpoort.nl", "Anna Smid" },
+        { "r.rijkeboer@noorderpoort.nl", "René Rijkerboer" },
+        { "t.bakker@noorderpoort.nl", "Thomas Bakker" },
     };
 
-    // Selected hacker name and student name
-    public string hackerName;
-    public string studentName;
-    public string hackerPassword;
-    public string teacherPassword;
-    public EncryptionMethod encryptionMethod;
-
-    public StickyNote stickyNoteStudentName;
-    public StickyNote stickyNoteHackerName;
-    public StickyNote stickyNoteEncryptionMethod;
-
-    [SerializeField]
-    private GameObject[] logInStickyNotes;
+    [Tooltip("Possible Teacher Log-In Passwords")]
     private readonly List<string> logInPasswords = new()
     {
         { "GeenIdee"},
         { "Wachtwoord" },
         { "School123" },
     };
+
+    // Student hacker information
+    public string hackerName, hackerEmail, hackerPassword;
+    public string teacherPassword;
+    public EncryptionMethod encryptionMethod;
+
+    [SerializeField, Tooltip("Possible Teacher Log-In Sticky Notes - Used for Randomizing the Position")]
+    private GameObject[] logInStickyNotes;
 
     public enum EncryptionMethod
     {
@@ -44,12 +37,14 @@ public class Randomizer : MonoBehaviour
         RailWayFence,
     }
 
+    #region Randomized Teacher Log-In & Sticky Note Position
     private void Awake()
     {
-        RandomizedLogIn();
+        RandomizeLogIn();
+        RandomizeHacker();
     }
 
-    private void RandomizedLogIn()
+    private void RandomizeLogIn()
     {
         // Disable all sticky notes
         foreach (GameObject stickyNote in logInStickyNotes)
@@ -60,7 +55,7 @@ public class Randomizer : MonoBehaviour
         // Enable a random sticky note and assign a random password
         if (logInStickyNotes.Length > 0)
         {
-            int randomStickyNoteIndex = UnityEngine.Random.Range(0, logInStickyNotes.Length);
+            int randomStickyNoteIndex = Random.Range(0, logInStickyNotes.Length);
             StickyNote selectedStickyNote = logInStickyNotes[randomStickyNoteIndex].GetComponent<StickyNote>();
             selectedStickyNote.gameObject.SetActive(true);
 
@@ -72,47 +67,53 @@ public class Randomizer : MonoBehaviour
             }
         }
     }
+    #endregion
 
-    public void PickRandomHackerProfile()
+    public void RandomizeHacker()
     {
         // Select a random hacker profile
-        List<string> hackerNames = new List<string>(hackerProfiles.Keys);
-        hackerName = hackerNames[UnityEngine.Random.Range(0, hackerNames.Count)];
-        studentName = hackerProfiles[hackerName];
+        List<string> hackerEmails = new(studentProfiles.Keys);
+        hackerEmail = hackerEmails[UnityEngine.Random.Range(0, hackerEmails.Count)];
+        hackerName = studentProfiles[hackerEmail];
 
         // Generate a password for encryption
-        string plainPassword = hackerName; // Use the hacker name as the base password
-        encryptionMethod = (EncryptionMethod)UnityEngine.Random.Range(0, Enum.GetValues(typeof(EncryptionMethod)).Length);
+        string plainPassword = hackerName;
+
+        encryptionMethod = hackerName switch                // AYO THIS IS A THING???
+        {
+            "Jeff Jansen" => EncryptionMethod.Caesar,
+            "Anna Smid" => EncryptionMethod.RailWayFence,
+            "René Rijkeboer" => EncryptionMethod.Vigenere,
+            _ => EncryptionMethod.Atbash,
+        };
+
         hackerPassword = EncryptPassword(plainPassword, encryptionMethod);
 
         // Debug output to the Unity Console
         Debug.Log($"Hacker Name: {hackerName}");
-        Debug.Log($"Student Name: {studentName}");
         Debug.Log($"Encrypted Password: {hackerPassword}");
         Debug.Log($"Encryption Method Used: {encryptionMethod}");
 
-        //stickyNoteHackerName.textObj.text = hackerName;
-        //stickyNoteStudentName.textObj.text = studentName;
-        //stickyNoteEncryptionMethod.textObj.text = encryptionMethod.ToString();
+        /* 
+        encryptionMethod = (EncryptionMethod)UnityEngine.Random.Range(0, Enum.GetValues(typeof(EncryptionMethod)).Length);
+        stickyNoteHackerName.textObj.text = hackerName;
+        stickyNoteStudentName.textObj.text = studentName;
+        stickyNoteEncryptionMethod.textObj.text = encryptionMethod.ToString(); */
     }
 
     private string EncryptPassword(string plainPassword, EncryptionMethod method)
     {
-        switch (method)
+        return method switch
         {
-            case EncryptionMethod.Caesar:
-                return CaesarCipherEncrypt(plainPassword, 3); // Shift by 3
-            case EncryptionMethod.Vigenere:
-                return VigenereCipherEncrypt(plainPassword, "KEY");
-            case EncryptionMethod.Atbash:
-                return AtbashCipherEncrypt(plainPassword);
-            case EncryptionMethod.RailWayFence:
-                return RailwayFenceCipherEncrypt(plainPassword, 3); // Use 3 rails as default
-            default:
-                return plainPassword;
-        }
+            EncryptionMethod.Caesar => CaesarCipherEncrypt(plainPassword, 3), // Shift by 3
+            EncryptionMethod.Vigenere => VigenereCipherEncrypt(plainPassword, "KEY"), 
+            EncryptionMethod.Atbash => AtbashCipherEncrypt(plainPassword),
+            EncryptionMethod.RailWayFence => RailwayFenceCipherEncrypt(plainPassword, 3), // Use 3 rails as default
+            _ => plainPassword,
+        };
     }
 
+    #region Encryption Methods
     private string CaesarCipherEncrypt(string input, int shift)
     {
         char[] buffer = input.ToCharArray();
@@ -197,4 +198,5 @@ public class Randomizer : MonoBehaviour
 
         return encrypted.ToString();
     }
+    #endregion
 }

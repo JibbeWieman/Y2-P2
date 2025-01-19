@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using Unity.FPS.Game;
 
 public class VRMouseCursor : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class VRMouseCursor : MonoBehaviour
     [Header("Input (settings)")]
     [SerializeField, Tooltip("2D Axis input resembling the select action")]
     //InputActionReference xrAimPosition;
-    public NearFarInteractor rayInteractor;
+    private NearFarInteractor rayInteractor;
 
     [SerializeField] 
     private InputAction clickAction; // Input action for click
@@ -55,8 +56,7 @@ public class VRMouseCursor : MonoBehaviour
         MoveCursor();
         SimulateHover();
 
-        RaycastResult uiHit;
-        if (rayInteractor.TryGetCurrentUIRaycastResult(out uiHit))
+        if (rayInteractor.TryGetCurrentUIRaycastResult(out RaycastResult uiHit))
         {
             Vector2 screenPosition = uiHit.screenPosition;
             Debug.Log($"UI Raycast Hit at Screen Position: {screenPosition}");
@@ -133,18 +133,19 @@ public class VRMouseCursor : MonoBehaviour
     private void OnClickPerformed(InputAction.CallbackContext context)
     {
         HandleClick();
+        EventManager.Broadcast(Events.ClickEvent);
     }
 
     private void HandleClick()
     {
         Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, cursorImage.position);
 
-        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        PointerEventData pointerData = new(EventSystem.current)
         {
             position = screenPosition
         };
 
-        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        List<RaycastResult> raycastResults = new();
         EventSystem.current.RaycastAll(pointerData, raycastResults);
 
         if (raycastResults.Count > 0)
@@ -168,12 +169,12 @@ public class VRMouseCursor : MonoBehaviour
     {
         Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, cursorImage.position);
 
-        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        PointerEventData pointerData = new(EventSystem.current)
         {
             position = screenPosition
         };
 
-        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        List<RaycastResult> raycastResults = new();
         EventSystem.current.RaycastAll(pointerData, raycastResults);
 
         if (raycastResults.Count > 0)
