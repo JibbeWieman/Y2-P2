@@ -1425,6 +1425,9 @@ MonoBehaviour:
   LogInPanel: {fileID: 7844803548684972613}
   StudentLogInPanel: {fileID: 738991884884957922}
   helpLine: {fileID: 0}
+  audioSource: {fileID: 0}
+  successSFX: {fileID: 0}
+  failureSFX: {fileID: 0}
 --- !u!1 &2660550861638214996
 GameObject:
   m_ObjectHideFlags: 0
@@ -14431,7 +14434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2428494541859028798, guid: b0c78422845bac948a9080175e57ffff, type: 3}
       propertyPath: m_Delegates.Array.data[3].eventID
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2428494541859028798, guid: b0c78422845bac948a9080175e57ffff, type: 3}
       propertyPath: m_Delegates.Array.data[3].callback.m_PersistentCalls.m_Calls.Array.size
@@ -15187,7 +15190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2428494541859028798, guid: b0c78422845bac948a9080175e57ffff, type: 3}
       propertyPath: m_Delegates.Array.data[3].eventID
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2428494541859028798, guid: b0c78422845bac948a9080175e57ffff, type: 3}
       propertyPath: m_Delegates.Array.data[3].callback.m_PersistentCalls.m_Calls.Array.size

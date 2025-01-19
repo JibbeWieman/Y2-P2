@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class VRMouseCursor : MonoBehaviour
 {
@@ -24,8 +25,9 @@ public class VRMouseCursor : MonoBehaviour
     #endregion
 
     [Header("Input (settings)")]
-    [SerializeField, Tooltip("2D Axis input resembling the select action")] 
-    InputActionReference xrAimPosition;
+    [SerializeField, Tooltip("2D Axis input resembling the select action")]
+    //InputActionReference xrAimPosition;
+    public NearFarInteractor rayInteractor;
 
     [SerializeField] 
     private InputAction clickAction; // Input action for click
@@ -53,14 +55,34 @@ public class VRMouseCursor : MonoBehaviour
         MoveCursor();
         SimulateHover();
 
-        Vector3 aimPosition = xrAimPosition.action.ReadValue<Vector3>();
-        Debug.Log(aimPosition);
+        RaycastResult uiHit;
+        if (rayInteractor.TryGetCurrentUIRaycastResult(out uiHit))
+        {
+            Vector2 screenPosition = uiHit.screenPosition;
+            Debug.Log($"UI Raycast Hit at Screen Position: {screenPosition}");
 
-        //if (aimPosition)
-        //{
-            //cursorImage = AimPosition;
-        //}
+            // Convert screen position to canvas-local position
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, screenPosition, Camera.main, out Vector2 localPosition);
+
+            // Check if the local position is within the canvas bounds
+            if (IsWithinCanvasBounds(localPosition))
+            {
+                // Update the cursor position on the canvas
+                cursorImage.anchoredPosition = localPosition;
+            }
+        }
     }
+
+    private bool IsWithinCanvasBounds(Vector2 localPosition)
+    {
+        Rect canvasRect = canvasRectTransform.rect;
+
+        // Check if the local position is within the canvas rectangle
+        return localPosition.x >= canvasRect.xMin && localPosition.x <= canvasRect.xMax &&
+               localPosition.y >= canvasRect.yMin && localPosition.y <= canvasRect.yMax;
+    }
+
+
 
     private void OnDestroy()
     {

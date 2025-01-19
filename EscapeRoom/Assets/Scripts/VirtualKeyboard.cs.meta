@@ -3,7 +3,13 @@ guid: 596da47824c9b2647a575f676a8b25dc
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - LogInPanel: {instanceID: 0}
+  - StudentLogInPanel: {instanceID: 0}
+  - helpLine: {instanceID: 0}
+  - audioSource: {instanceID: 0}
+  - successSFX: {fileID: 8300000, guid: e938bf97c7cff65469e72bb7ac588363, type: 3}
+  - failureSFX: {fileID: 8300000, guid: e51ae8e9ce48933438282d9250e3f624, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

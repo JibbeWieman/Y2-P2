@@ -19,7 +19,7 @@ public class CombinationLock : MonoBehaviour
     [Header("Input (settings)")]
     [SerializeField, Tooltip("2D Axis input resembling the select action")] InputActionReference leftSelect;
     [SerializeField, Tooltip("2D Axis input resembling the select action")] InputActionReference rightSelect;
-    [SerializeField] float joyThreshold = 0.5f;
+    [SerializeField] float joyThreshold = 0.8f;
     [SerializeField] float maxSelectDelay = 0.5f;
 
     // invisible variables
@@ -59,27 +59,24 @@ public class CombinationLock : MonoBehaviour
     // getting the input
     void Update()
     {
-        //Debug.Log($"Is Active: {active}     Select Delay: {selectDelay}     Current Digit Index: {currDigitIndex}");
         // reducing select delay
         selectDelay -= selectDelay > 0 ? Time.deltaTime : 0;
 
         // getting the input vector
         Vector2 input = leftSelect.action.ReadValue<Vector2>() + rightSelect.action.ReadValue<Vector2>(); // players can use both controllers  
 
-        //Debug.Log(input);
-
         // if controller is grabbed and no delay
         if (active && selectDelay <= 0)
         {
-            // selecting target digit
+            // Selecting target digit
             if (input.x > joyThreshold)
             {
-                currDigitIndex = currDigitIndex > 0 ? currDigitIndex - 1 : digits.Length - 1;
+                currDigitIndex = (currDigitIndex + 1) % digits.Length; // Increment and wrap around
                 selectDelay = maxSelectDelay;
             }
             else if (input.x < -joyThreshold)
             {
-                currDigitIndex = currDigitIndex < digits.Length - 1 ? currDigitIndex + 1 : 0;
+                currDigitIndex = (currDigitIndex - 1 + digits.Length) % digits.Length; // Decrement and wrap around
                 selectDelay = maxSelectDelay;
             }
 
@@ -96,8 +93,9 @@ public class CombinationLock : MonoBehaviour
             }
 
             // displaying currently selected digit
-            Transform CurrentDigit = digits[currDigitIndex];
-            indicator.localPosition = new Vector3(CurrentDigit.localPosition.x, CurrentDigit.localPosition.y +.65f, CurrentDigit.localPosition.z -1.08059464f);
+            Transform currentDigit = digits[currDigitIndex];
+            indicator.localPosition = currentDigit.localPosition + new Vector3(0, 0.65f, -1.08059464f);
+
 
             // confirm combination
             //if (leftConfirm.action.WasPressedThisFrame() || rightConfirm.action.WasPressedThisFrame()) {
@@ -114,7 +112,6 @@ public class CombinationLock : MonoBehaviour
             if (correct)
             {
                 unlockAction.Invoke();
-                Debug.Log("Code Correct!");
             }
             //}
         }
@@ -131,24 +128,22 @@ public class CombinationLock : MonoBehaviour
 
     public void TurnLock(int digitIndex, bool clockwise)
     {
-        // Calculate the rotation increment
         float rotationStep = 360f / digitSideAmount;
 
-        // Adjust the rotation
-        Vector3 newRot = digits[digitIndex].localEulerAngles;
-        newRot.x += clockwise ? -rotationStep : rotationStep; // Clockwise rotation in local space
-
-        // Apply the new rotation
-        digits[digitIndex].localRotation = Quaternion.Euler(newRot);
+        // Adjust the rotation directly
+        float rotationDirection = clockwise ? -rotationStep : rotationStep;
+        digits[digitIndex].Rotate(Vector3.right, rotationDirection, Space.Self);
 
         // Update digit value with wrapping
         digitValues[digitIndex] = (digitValues[digitIndex] + (clockwise ? 1 : -1) + digitSideAmount) % digitSideAmount;
 
-        Debug.Log($"Digit {digitIndex} rotated to {newRot.x} degrees. Current Value: {digitValues[digitIndex]}");
+        Debug.Log($"Digit {digitIndex} rotated. Current Value: {digitValues[digitIndex]}");
     }
+
 
     public void Unlock()
     {
+        Debug.Log("Code Correct! Unlocking lock...");
         rb.useGravity = true;
         rb.isKinematic = false;
 
