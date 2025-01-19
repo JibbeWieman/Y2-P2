@@ -33,17 +33,10 @@ public class VRMouseCursor : MonoBehaviour
     [SerializeField] 
     private InputAction clickAction; // Input action for click
 
-    private AudioSource audioSource;
-
-    [SerializeField]
-    private AudioClip MouseSFX;
-
     #region Unity Methods
 
     private void Start()
     {
-        audioSource = FindAnyObjectByType<AudioSource>();
-
         if (canvasRectTransform == null || cursorImage == null || detectionBox == null)
         {
             Debug.LogError("Please assign all required references in the inspector.");
@@ -141,7 +134,7 @@ public class VRMouseCursor : MonoBehaviour
     {
         HandleClick();
         EventManager.Broadcast(Events.ClickEvent);
-        audioSource.PlayOneShot(MouseSFX);
+        Debug.Log("");
     }
 
     private void HandleClick()

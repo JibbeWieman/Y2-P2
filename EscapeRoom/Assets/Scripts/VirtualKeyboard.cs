@@ -51,9 +51,7 @@ public class VirtualKeyboard : MonoBehaviour
     [SerializeField] private AudioClip successSFX;
     [SerializeField] private AudioClip failureSFX;
 
-    [SerializeField]
-    private InputAction clickAction; // Input action for click
-
+    [Header("Interactors")]
     [SerializeField]
     private NearFarInteractor leftRayInteractor;
     [SerializeField]
@@ -63,7 +61,6 @@ public class VirtualKeyboard : MonoBehaviour
     private Randomizer randomizer;
     private HelpLine helpLine;
 
-    [SerializeField]
     private TMP_InputField activeInputField;
     private Coroutine fadeCoroutine;
 
