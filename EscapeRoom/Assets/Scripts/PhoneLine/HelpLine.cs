@@ -1,3 +1,4 @@
+using System.Collections;
 using System.ComponentModel;
 using UnityEngine;
 
@@ -5,10 +6,7 @@ public class HelpLine : MonoBehaviour
 {
     private Animator animator;
 
-    //public bool checkLastEdited = false;
-    //public bool unlockedDrawer = false;
-    //public bool foundQRCode = false;
-
+    private bool isCooldown;
 
     public void Start()
     {
@@ -26,6 +24,11 @@ public class HelpLine : MonoBehaviour
 
     public void Play()
     {
+        if (isCooldown) return;
+
+        isCooldown = true;
+        StartCoroutine(CooldownRoutine());
+        
         animator.GetBehaviour<HelpLineState>().Play(gameObject);
         SetParameter(Parameters.IntroPlayed, true);
         if (!animator.GetBehaviour<HelpLineState>().AnyValidSounds())
@@ -46,5 +49,11 @@ public class HelpLine : MonoBehaviour
            .GetField(val.ToString())
            .GetCustomAttributes(typeof(DescriptionAttribute), false);
         return attributes.Length > 0 ? attributes[0].Description : string.Empty;
+    }
+
+    private IEnumerator CooldownRoutine()
+    {
+        yield return new WaitForSeconds(30f);
+        isCooldown = false;
     }
 }
