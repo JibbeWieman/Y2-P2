@@ -59,7 +59,7 @@ public class VRMouseCursor : MonoBehaviour
         if (rayInteractor.TryGetCurrentUIRaycastResult(out RaycastResult uiHit))
         {
             Vector2 screenPosition = uiHit.screenPosition;
-            Debug.Log($"UI Raycast Hit at Screen Position: {screenPosition}");
+            //Debug.Log($"UI Raycast Hit at Screen Position: {screenPosition}");
 
             // Convert screen position to canvas-local position
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, screenPosition, Camera.main, out Vector2 localPosition);
@@ -155,10 +155,10 @@ public class VRMouseCursor : MonoBehaviour
             ExecuteEvents.Execute(clickedObject, pointerData, ExecuteEvents.pointerClickHandler);
             Debug.Log($"Clicked on: {clickedObject.name}");
         }
-        else
-        {
-            Debug.Log("No clickable UI element found.");
-        }
+        //else
+        //{
+        //    Debug.Log("No clickable UI element found.");
+        //}
     }
 
     #endregion

@@ -7073,11 +7073,19 @@ MonoBehaviour:
     StudentAccPanel: {fileID: 3187829554976544830}
     Succes: {fileID: 1557961053751005214}
     Fail: {fileID: 4116454755345717008}
-  PositiveImage: {fileID: 1557961053751005214}
-  NegativeImage: {fileID: 4116454755345717008}
-  helpLine: {fileID: 0}
   successSFX: {fileID: 8300000, guid: e938bf97c7cff65469e72bb7ac588363, type: 3}
   failureSFX: {fileID: 8300000, guid: e51ae8e9ce48933438282d9250e3f624, type: 3}
+  clickAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: a6e9f741-23b5-4073-b9fe-837bdd399ba4
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  rayInteractor: {fileID: 0}
+  activeInputField: {fileID: 0}
 --- !u!1001 &734999546031819205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14324,6 +14332,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2428494541859028798, guid: b0c78422845bac948a9080175e57ffff, type: 3}
+      propertyPath: m_Delegates.Array.data[3].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6389169383489023748}
+    - target: {fileID: 2428494541859028798, guid: b0c78422845bac948a9080175e57ffff, type: 3}
       propertyPath: m_Delegates.Array.data[3].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -14455,6 +14467,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4455438662752596683, guid: b0c78422845bac948a9080175e57ffff, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6389169383489023748}
     - target: {fileID: 4455438662752596683, guid: b0c78422845bac948a9080175e57ffff, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -15717,6 +15733,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4455438662752596683, guid: b0c78422845bac948a9080175e57ffff, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6389169383489023748}
     - target: {fileID: 4455438662752596683, guid: b0c78422845bac948a9080175e57ffff, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2

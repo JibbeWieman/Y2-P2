@@ -6,6 +6,10 @@ using TMPro;
 using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering.UI;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 [System.Serializable]
 public class PanelGroup
@@ -37,46 +41,45 @@ public class PanelGroup
 
 public class VirtualKeyboard : MonoBehaviour
 {
-    [SerializeField]
-    private int characterLimit = 20;
+    [Header("Values")]
+    [SerializeField] private int characterLimit = 20;
+
+    [Header("Laptop UI Panels")]
+    [SerializeField] private PanelGroup panels;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip successSFX;
+    [SerializeField] private AudioClip failureSFX;
 
     [SerializeField]
-    private PanelGroup panels;
-
-    [Space(5)]
+    private InputAction clickAction; // Input action for click
 
     [SerializeField]
+    private NearFarInteractor leftRayInteractor;
+    [SerializeField]
+    private NearFarInteractor rightRayInteractor;
+
+    private AudioSource audioSource;
+    private Randomizer randomizer;
     private HelpLine helpLine;
 
-    private Randomizer randomizer;
+    [SerializeField]
+    private TMP_InputField activeInputField;
+    private Coroutine fadeCoroutine;
 
     private bool loggedIn = false;
     private bool nameGuessed = false;
-    private bool isCapsLockOn = false; // Tracks the state of Caps Lock.
+    private bool isCapsLockOn = false;
     private string teacherPassword;
-
-    //private TMP_InputField TeacherInputField;
-    //private TMP_InputField[] StudentInputField;
-    private TMP_InputField activeInputField;
-
-    private AudioSource audioSource;
-
-    [SerializeField]
-    private AudioClip successSFX, failureSFX;
-
-    private Coroutine fadeCoroutine;
 
     void Start()
     {
+        // Set listener to click event for setting the Active Input Field
+        EventManager.AddListener<ClickEvent>(SetActiveInputField);
+
         audioSource = FindAnyObjectByType<AudioSource>();
         randomizer = FindAnyObjectByType<Randomizer>();
-        //TeacherInputField = panels.LogInPanel.GetComponentInChildren<TMP_InputField>();
-        //StudentInputField = panels.StudentLogInPanel.GetComponentsInChildren<TMP_InputField>();
-
-        // Set Input Field Listeners & Character Limits
-        //SetInputField(TeacherInputField);
-        //SetInputField(StudentInputField[0]);
-        //SetInputField(StudentInputField[1]);
+        helpLine = FindAnyObjectByType<HelpLine>();
 
         // Ensure panel visibility on start & get input fields
         foreach (GameObject panel in panels.AllPanels)
@@ -89,13 +92,11 @@ public class VirtualKeyboard : MonoBehaviour
                 SetInputField(field);
             }
         }
-        panels.MainPanel?.SetActive(true);
+        panels.LogInPanel?.SetActive(true);
+        activeInputField = panels.LogInPanel.GetComponentInChildren<TMP_InputField>();
 
         // Get the randomized teacher log-in password
         teacherPassword = randomizer.teacherPassword;
-
-        // Set listener to click event for setting the Active Input Field
-        EventManager.AddListener<ClickEvent>(SetActiveInputField);
     }
 
     private void ValidateAnswer(string inputText)
@@ -110,7 +111,6 @@ public class VirtualKeyboard : MonoBehaviour
                 helpLine.SetParameter(HelpLine.Parameters.LoggedIn, true);
                 panels.MainPanel.SetActive(true);
                 panels.LogInPanel.SetActive(false);
-                //TeacherInputField = panels.StudentLogInPanel.GetComponentInChildren<TMP_InputField>();
                 isCorrect = true;
                 Console.WriteLine("Teacher logged in. Opening Student Login Panel.");
             }
@@ -156,7 +156,7 @@ public class VirtualKeyboard : MonoBehaviour
         }
 
         targetImage.SetActive(true);
-        fadeCoroutine = StartCoroutine(FadeAndHideImage(targetImage, 1f)); // Adjust duration as needed
+        fadeCoroutine = StartCoroutine(FadeAndHideImage(targetImage, 1f));
     }
 
     private IEnumerator FadeAndHideImage(GameObject image, float duration)
@@ -257,18 +257,37 @@ public class VirtualKeyboard : MonoBehaviour
     /// <summary>
     /// Check which Input Field is active. Neccessary for the keyboard key methods.
     /// </summary>
+    /// 
     private void SetActiveInputField(ClickEvent evt)
     {
-        GameObject selectedObj = EventSystem.current.currentSelectedGameObject;
+        Debug.Log("Setting Active Input Field");
 
-        if (selectedObj != null)
+        // Process left and right ray interactors
+        ProcessRayInteractor(leftRayInteractor);
+        ProcessRayInteractor(rightRayInteractor);
+    }
+
+    private void ProcessRayInteractor(NearFarInteractor rayInteractor)
+    {
+        if (rayInteractor.TryGetCurrentUIRaycastResult(out RaycastResult uiHit))
         {
-            selectedObj.TryGetComponent(out TMP_InputField input);
-            activeInputField = input != null ? input : null;
-        }
-        else
-        {
-            activeInputField = null;
+            if (uiHit.gameObject != null)
+            {
+                // Try to get the TMP_InputField from the parent of the hit game object
+                TMP_InputField input = uiHit.gameObject.GetComponentInParent<TMP_InputField>();
+
+                if (input != null)
+                {
+                    Debug.Log(input);
+                    activeInputField = input;
+                }
+                else
+                {
+                    Debug.LogWarning("TMP_InputField not found on the parent.");
+                }
+
+                Debug.Log(uiHit.gameObject);
+            }
         }
     }
 
