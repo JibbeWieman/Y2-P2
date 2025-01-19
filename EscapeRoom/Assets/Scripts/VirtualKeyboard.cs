@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class VirtualKeyboard : MonoBehaviour
 {
-    private TMP_InputField inputField;
-
     [SerializeField]
     private int characterLimit = 20;
 
     [SerializeField]
-    private GameObject LogInPanel, StudentLogInPanel;
+    private GameObject LogInPanel, MainScreenPanel, SearchPanel, StudentLogInPanel, FileExplorerPanel, CloudFilesPanel, StudentAccPanel;
 
-    private string teacherPassword;
+    [Space(5)]
 
     [SerializeField]
     private HelpLine helpLine;
@@ -24,9 +22,11 @@ public class VirtualKeyboard : MonoBehaviour
     private bool nameGuessed = false; // Bool to track the match status.
     //private bool passwordGuessed = false; // Bool to track the match status.
     private bool isCapsLockOn = false; // Tracks the state of Caps Lock.
+    private string teacherPassword;
     //private bool isShiftHeld = false; // Tracks if Shift is currently held down.
 
-    [SerializeField]
+    private TMP_InputField inputField;
+
     private AudioSource audioSource;
 
     [SerializeField]
@@ -44,6 +44,8 @@ public class VirtualKeyboard : MonoBehaviour
         inputField.onSubmit.AddListener(ValidateAnswer);
 
         hackerID.PickRandomHackerProfile();
+
+        audioSource = FindAnyObjectByType<AudioSource>();
     }
 
     private void ValidateAnswer(string inputText)
@@ -58,7 +60,7 @@ public class VirtualKeyboard : MonoBehaviour
                 inputField.text = null;
                 Console.WriteLine("Teacher logged in. Opening Student Login Panel.");
                 audioSource.PlayOneShot(successSFX);
-                StudentLogInPanel.SetActive(true);
+                MainScreenPanel.SetActive(true);
                 LogInPanel.SetActive(false);
                 inputField = StudentLogInPanel.GetComponentInChildren<TMP_InputField>();
             }
@@ -105,6 +107,12 @@ public class VirtualKeyboard : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void SwitchPanels(GameObject from, GameObject to)
+    {
+        from.SetActive(false);
+        to.SetActive(true);
     }
 
     #region BUTTON METHODS
