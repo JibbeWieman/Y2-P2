@@ -591,7 +591,7 @@ MonoBehaviour:
   - {fileID: 3694687243986433852}
   - {fileID: 2942245228182564637}
   - {fileID: 3166515297389140643}
-  digitValues: 00000000000000000000000000000000
+  digitValues: 000000000000000000000000
   correctCombination: 020000000100000003000000
   unlockAction:
     m_PersistentCalls:
@@ -608,10 +608,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  rb: {fileID: 0}
+  rb: {fileID: 2443775737615253792}
   leftSelect: {fileID: -1982954274305685397, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   rightSelect: {fileID: 7236761063086376565, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  joyThreshold: 0.5
+  joyThreshold: 0.8
   maxSelectDelay: 0.5
 --- !u!65 &1078820693473171493
 BoxCollider:
