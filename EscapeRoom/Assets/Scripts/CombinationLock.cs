@@ -19,7 +19,7 @@ public class CombinationLock : MonoBehaviour
     [Header("Input (settings)")]
     [SerializeField, Tooltip("2D Axis input resembling the select action")] InputActionReference leftSelect;
     [SerializeField, Tooltip("2D Axis input resembling the select action")] InputActionReference rightSelect;
-    [SerializeField] float joyThreshold = 0.5f;
+    [SerializeField] float joyThreshold = 0.8f;
     [SerializeField] float maxSelectDelay = 0.5f;
 
     // invisible variables
