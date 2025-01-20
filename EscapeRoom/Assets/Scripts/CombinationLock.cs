@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class CombinationLock : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class CombinationLock : MonoBehaviour
     [Header("Unlock Action")]
     [SerializeField, Tooltip("Action that happens when lock opens")] UnityEvent unlockAction;
     [SerializeField, Tooltip("Door Rigidbody for unlocking the door")] private Rigidbody rb;
+    [SerializeField, Tooltip("Key for inside of the lock.")] private XRGrabInteractable lockedKey;
 
     [Header("Input (settings)")]
     [SerializeField, Tooltip("2D Axis input resembling the select action")] InputActionReference leftSelect;
@@ -35,6 +37,7 @@ public class CombinationLock : MonoBehaviour
     {
         savedLocation = transform.position;
         indicator.gameObject.SetActive(false);
+        lockedKey.enabled = false;
     }
 
     private void OnTriggerStay(Collider other)
@@ -149,6 +152,8 @@ public class CombinationLock : MonoBehaviour
 
         // Apply torque to rotate on the x-axis
         rb.AddTorque(Vector3.left * 1f, ForceMode.Impulse);
+
+        lockedKey.enabled = true;
     }
 }
 /* #if UNITY_EDITOR

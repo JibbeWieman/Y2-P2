@@ -18,7 +18,7 @@ public class CheckKey : MonoBehaviour
     private XRGrabInteractable XRGrabInteractable;
 
     [SerializeField]
-    private GameObject[] papers;
+    private List<GameObject> LockedObjects;
 
     private GameObject insertedObject;
 
@@ -31,7 +31,7 @@ public class CheckKey : MonoBehaviour
         
         if (XRGrabInteractable != null)
             XRGrabInteractable.enabled = false;
-        SetPaperLocked(true);
+        LockObjects(true);
 
         requiredKey = requiredObject.Objects[0];
     }
@@ -57,14 +57,14 @@ public class CheckKey : MonoBehaviour
             text.SetActive(true);
         }
 
-        SetPaperLocked(false);
+        LockObjects(false);
     }
 
-    private void SetPaperLocked(bool locked)
+    private void LockObjects(bool locked)
     {
-        foreach (GameObject paper in papers)
+        foreach (GameObject lockedObject in LockedObjects)
         {
-            paper.GetComponent<XRGrabInteractable>().enabled = !locked;
+            lockedObject.GetComponent<XRGrabInteractable>().enabled = !locked;
         }
     }
 
