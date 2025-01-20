@@ -58,6 +58,9 @@ public class VirtualKeyboard : MonoBehaviour
     private HelpLine helpLine;
 
     private TMP_InputField activeInputField;
+    private TMP_InputField teacherInputField;
+    private TMP_InputField studentEmailInputField;
+    private TMP_InputField studentPasswordInputField;
     //private Coroutine fadeCoroutine;
 
     private bool loggedIn = false;
@@ -86,13 +89,16 @@ public class VirtualKeyboard : MonoBehaviour
             }
         }
         panels.LogInPanel?.SetActive(true);
-        activeInputField = panels.LogInPanel.GetComponentInChildren<TMP_InputField>();
+        teacherInputField = panels.LogInPanel.GetComponentInChildren<TMP_InputField>();
+        studentEmailInputField = panels.StudentLogInPanel.GetComponentsInChildren<TMP_InputField>()[0];
+        studentPasswordInputField = panels.StudentLogInPanel.GetComponentsInChildren<TMP_InputField>()[1];
+        activeInputField = teacherInputField;
 
         // Get the randomized teacher log-in password
         teacherPassword = randomizer.teacherPassword;
     }
 
-    private void ValidateAnswer(string inputText)
+    private void ValidateAnswer(string inputText, string inputText2 = null)
     {
         bool isCorrect = false;
 
@@ -114,16 +120,11 @@ public class VirtualKeyboard : MonoBehaviour
         }
         else
         {
-            if (!nameGuessed && inputText == randomizer.hackerName)
+            if (inputText == randomizer.hackerEmail && inputText2 == randomizer.hackerPassword)
             {
                 nameGuessed = true;
                 isCorrect = true;
                 Console.WriteLine("Name guessed correctly! Now guess the password.");
-            }
-            else if (nameGuessed && inputText == randomizer.hackerPassword)
-            {
-                isCorrect = true;
-                Console.WriteLine("Password guessed correctly! Access granted.");
             }
             else
             {
@@ -218,11 +219,15 @@ public class VirtualKeyboard : MonoBehaviour
     // Method for handling the enter/confirm key
     public void OnEnterPress()
     {
-        if (activeInputField != null)
+        if (!loggedIn)
         {
-            Debug.Log($"Input Confirmed: {activeInputField.text}");
-            ValidateAnswer(activeInputField.text);
+            ValidateAnswer(teacherInputField.text);
         }
+        else
+        {
+            ValidateAnswer(studentEmailInputField.text, studentPasswordInputField.text);
+        }
+        Debug.Log($"Input Confirmed: {activeInputField.text}");
 
         Debug.Log("Enter Pressed");
     }
@@ -288,7 +293,7 @@ public class VirtualKeyboard : MonoBehaviour
     private void SetInputField(TMP_InputField inputField)
     {
         inputField.characterLimit = characterLimit;
-        inputField.onSubmit.AddListener(ValidateAnswer);
+        inputField.onSubmit.AddListener(inputText => ValidateAnswer(inputText, null));
     }
 
     public void SwitchPanels(GameObject from, GameObject to)
