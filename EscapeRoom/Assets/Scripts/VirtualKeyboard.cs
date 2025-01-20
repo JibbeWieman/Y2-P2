@@ -123,6 +123,8 @@ public class VirtualKeyboard : MonoBehaviour
             if (inputText == randomizer.hackerEmail && inputText2 == randomizer.hackerPassword)
             {
                 nameGuessed = true;
+                panels.StudentAccPanel.SetActive(true);
+                panels.StudentLogInPanel.SetActive(false);
                 isCorrect = true;
                 Console.WriteLine("Name guessed correctly! Now guess the password.");
             }

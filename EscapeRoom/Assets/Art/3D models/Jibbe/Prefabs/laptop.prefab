@@ -7063,7 +7063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596da47824c9b2647a575f676a8b25dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterLimit: 16
+  characterLimit: 30
   panels:
     LogInPanel: {fileID: 7844803548684972613}
     MainPanel: {fileID: 8324506784242174173}
