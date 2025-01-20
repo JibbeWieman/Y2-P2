@@ -63,7 +63,7 @@ public class VRMouseCursor : MonoBehaviour
         if (rayInteractor.TryGetCurrentUIRaycastResult(out RaycastResult uiHit))
         {
             Vector2 screenPosition = uiHit.screenPosition;
-            //Debug.Log($"UI Raycast Hit at Screen Position: {screenPosition}");
+            Debug.Log($"UI Raycast Hit at Screen Position: {screenPosition}");
 
             // Convert screen position to canvas-local position
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, screenPosition, Camera.main, out Vector2 localPosition);
@@ -71,6 +71,7 @@ public class VRMouseCursor : MonoBehaviour
             // Check if the local position is within the canvas bounds
             if (IsWithinCanvasBounds(localPosition))
             {
+                Debug.Log("In bounds");
                 // Update the cursor position on the canvas
                 cursorImage.anchoredPosition = localPosition;
             }
@@ -81,11 +82,14 @@ public class VRMouseCursor : MonoBehaviour
     {
         Rect canvasRect = canvasRectTransform.rect;
 
-        // Check if the local position is within the canvas rectangle
-        return localPosition.x >= canvasRect.xMin && localPosition.x <= canvasRect.xMax &&
-               localPosition.y >= canvasRect.yMin && localPosition.y <= canvasRect.yMax;
-    }
+        // Adjust for pivot
+        Vector2 pivotOffset = canvasRectTransform.pivot * new Vector2(canvasRect.width, canvasRect.height);
+        Vector2 adjustedPosition = localPosition + pivotOffset;
 
+        // Check if the adjusted position is within bounds
+        return adjustedPosition.x >= 0 && adjustedPosition.x <= canvasRect.width &&
+               adjustedPosition.y >= 0 && adjustedPosition.y <= canvasRect.height;
+    }
 
 
     private void OnDestroy()
