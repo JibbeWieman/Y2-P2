@@ -142,6 +142,7 @@ public class VirtualKeyboard : MonoBehaviour
         ShowFeedbackImage(isCorrect);
     }
 
+
     #region PASSWORD VISUAL FEEDBACK
     private void ShowFeedbackImage(bool isPositive)
     {
