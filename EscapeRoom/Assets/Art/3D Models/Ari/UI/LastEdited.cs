@@ -4,22 +4,9 @@ using UnityEngine;
 
 public class LastEdited : MonoBehaviour
 {
-    [SerializeField] public GameObject buttonOne, buttonTwo, JeffPanel, AnnaPanel, RenePanel, ThomasPanel;
+    [SerializeField] public GameObject JeffPanel, AnnaPanel, RenePanel, ThomasPanel;
     private Randomizer randomizer;
 
-    private void Update()
-    {
-        if (JeffPanel.activeSelf || AnnaPanel.activeSelf || RenePanel.activeSelf || ThomasPanel.activeSelf) 
-        {
-            buttonOne.SetActive(false);
-            buttonTwo.SetActive(false);
-        }
-        else if (!JeffPanel.activeSelf && !AnnaPanel.activeSelf && !RenePanel.activeSelf && !ThomasPanel.activeSelf)
-        {
-            buttonOne.SetActive(true);
-            buttonTwo.SetActive(true);
-        }
-    }
     public void LastEditedPanel()
     {
         randomizer = FindAnyObjectByType<Randomizer>();
