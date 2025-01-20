@@ -1827,7 +1827,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5266340018128732782}
         m_TargetAssemblyTypeName: CheckKey, Assembly-CSharp
-        m_MethodName: CheckIfKey
+        m_MethodName: UnlockLock
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7075,17 +7075,8 @@ MonoBehaviour:
     Fail: {fileID: 4116454755345717008}
   successSFX: {fileID: 8300000, guid: e938bf97c7cff65469e72bb7ac588363, type: 3}
   failureSFX: {fileID: 8300000, guid: e51ae8e9ce48933438282d9250e3f624, type: 3}
-  clickAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: a6e9f741-23b5-4073-b9fe-837bdd399ba4
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  rayInteractor: {fileID: 0}
-  activeInputField: {fileID: 0}
+  leftRayInteractor: {fileID: 0}
+  rightRayInteractor: {fileID: 0}
 --- !u!1001 &734999546031819205
 PrefabInstance:
   m_ObjectHideFlags: 0
