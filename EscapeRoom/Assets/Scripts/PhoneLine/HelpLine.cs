@@ -1,5 +1,6 @@
 using System.Collections;
 using System.ComponentModel;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HelpLine : MonoBehaviour
@@ -28,14 +29,29 @@ public class HelpLine : MonoBehaviour
 
         isCooldown = true;
         StartCoroutine(CooldownRoutine());
+
+        var currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
         
-        animator.GetBehaviour<HelpLineState>().Play(gameObject);
-        SetParameter(Parameters.IntroPlayed, true);
-        if (!animator.GetBehaviour<HelpLineState>().AnyValidSounds())
+
+        HelpLineMain helpLineState = animator.GetBehaviours(currentStateInfo.fullPathHash, 0)[0] as HelpLineMain;
+        
+        if (helpLineState != null)
         {
-            SetParameter(Parameters.DoneWithClues, true);
+            helpLineState.Play(gameObject);
+
+            SetParameter(Parameters.IntroPlayed, true);
+
+            if (!helpLineState.AnyValidSounds())
+            {
+                SetParameter(Parameters.DoneWithClues, true);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("HelpLineState behavior not found in the animator.");
         }
     }
+
 
     public void SetParameter(Parameters parameter, bool value)
     {
