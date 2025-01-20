@@ -22,6 +22,9 @@ public class CheckKey : MonoBehaviour
 
     private GameObject insertedObject;
 
+    [SerializeField]
+    private GameObject LosePanel, text;
+
     private void Start()
     {
         checkKeyArea = GetComponent<BoxCollider>();
@@ -50,13 +53,8 @@ public class CheckKey : MonoBehaviour
 
         if (insertedObject != null && insertedObject.CompareTag("USB Killer"))
         {
-#if UNITY_EDITOR
-            Debug.Log("Detected USB Killer in Unity Editor. Stopping play mode.");
-            EditorApplication.isPlaying = false;
-#else
-            Debug.Log("Detected USB Killer in build. Quitting application.");
-            Application.Quit();
-#endif
+            LosePanel.SetActive(true);
+            text.SetActive(true);
         }
 
         SetPaperLocked(false);
