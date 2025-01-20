@@ -1,14 +1,10 @@
 // Iterations: Shift using pointerUp, Using PanelGroup for cleaner Inspector, Cleaning up code using helper methods
 
 using System;
-using System.Collections;
 using TMPro;
 using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering.UI;
-using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 [System.Serializable]
@@ -21,8 +17,8 @@ public class PanelGroup
     public GameObject FileExplorerPanel;
     public GameObject CloudFilesPanel;
     public GameObject StudentAccPanel;
-    public GameObject Succes;
-    public GameObject Fail;
+    //public GameObject Succes;
+    //public GameObject Fail;
 
     public GameObject[] AllPanels => new GameObject[]
     {
@@ -33,8 +29,8 @@ public class PanelGroup
         FileExplorerPanel,
         CloudFilesPanel,
         StudentAccPanel,
-        Succes,
-        Fail,
+        //Succes,
+        //Fail,
     };
 }
 
@@ -62,7 +58,7 @@ public class VirtualKeyboard : MonoBehaviour
     private HelpLine helpLine;
 
     private TMP_InputField activeInputField;
-    private Coroutine fadeCoroutine;
+    //private Coroutine fadeCoroutine;
 
     private bool loggedIn = false;
     private bool nameGuessed = false;
@@ -139,40 +135,40 @@ public class VirtualKeyboard : MonoBehaviour
         audioSource.PlayOneShot(isCorrect ? successSFX : failureSFX);
 
         // Handle image display and fading
-        ShowFeedbackImage(isCorrect);
+        //ShowFeedbackImage(isCorrect);
     }
 
 
     #region PASSWORD VISUAL FEEDBACK
-    private void ShowFeedbackImage(bool isPositive)
-    {
-        GameObject targetImage = isPositive ? panels.Succes : panels.Fail;
+    //private void ShowFeedbackImage(bool isPositive)
+    //{
+    //    GameObject targetImage = isPositive ? panels.Succes : panels.Fail;
 
-        if (fadeCoroutine != null)
-        {
-            StopCoroutine(fadeCoroutine);
-        }
+    //    if (fadeCoroutine != null)
+    //    {
+    //        StopCoroutine(fadeCoroutine);
+    //    }
 
-        targetImage.SetActive(true);
-        fadeCoroutine = StartCoroutine(FadeAndHideImage(targetImage, 1f));
-    }
+    //    targetImage.SetActive(true);
+    //    fadeCoroutine = StartCoroutine(FadeAndHideImage(targetImage, 1f));
+    //}
 
-    private IEnumerator FadeAndHideImage(GameObject image, float duration)
-    {
-        CanvasGroup canvasGroup = image.GetComponent<CanvasGroup>() ?? image.AddComponent<CanvasGroup>();
-        canvasGroup.alpha = 1f;
+    //private IEnumerator FadeAndHideImage(GameObject image, float duration)
+    //{
+    //    CanvasGroup canvasGroup = image.GetComponent<CanvasGroup>() ?? image.AddComponent<CanvasGroup>();
+    //    canvasGroup.alpha = 1f;
 
-        float elapsedTime = 0f;
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
-            yield return null;
-        }
+    //    float elapsedTime = 0f;
+    //    while (elapsedTime < duration)
+    //    {
+    //        elapsedTime += Time.deltaTime;
+    //        canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
+    //        yield return null;
+    //    }
 
-        canvasGroup.alpha = 0f;
-        image.SetActive(false);
-    }
+    //    canvasGroup.alpha = 0f;
+    //    image.SetActive(false);
+    //}
     #endregion
 
     #region KEYBOARD KEY METHODS

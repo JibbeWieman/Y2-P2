@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using Unity.FPS.Game;
+using System;
 
 public class VRMouseCursor : MonoBehaviour
 {
@@ -27,7 +28,6 @@ public class VRMouseCursor : MonoBehaviour
 
     [Header("Input (settings)")]
     [SerializeField, Tooltip("2D Axis input resembling the select action")]
-    //InputActionReference xrAimPosition;
     private NearFarInteractor rayInteractor;
 
     [SerializeField] 
@@ -54,8 +54,12 @@ public class VRMouseCursor : MonoBehaviour
     private void Update()
     {
         MoveCursor();
+        MoveCursorToXrAimPoint();
         SimulateHover();
+    }
 
+    private void MoveCursorToXrAimPoint()
+    {
         if (rayInteractor.TryGetCurrentUIRaycastResult(out RaycastResult uiHit))
         {
             Vector2 screenPosition = uiHit.screenPosition;
