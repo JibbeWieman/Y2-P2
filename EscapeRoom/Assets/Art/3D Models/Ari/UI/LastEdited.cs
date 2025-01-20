@@ -14,7 +14,7 @@ public class LastEdited : MonoBehaviour
             buttonOne.SetActive(false);
             buttonTwo.SetActive(false);
         }
-        else 
+        else if (!JeffPanel.activeSelf && !AnnaPanel.activeSelf && !RenePanel.activeSelf && !ThomasPanel.activeSelf)
         {
             buttonOne.SetActive(true);
             buttonTwo.SetActive(true);
