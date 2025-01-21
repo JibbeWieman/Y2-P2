@@ -30,6 +30,7 @@ public class CombinationLock : MonoBehaviour
     private Vector3 savedLocation;
     private int currDigitIndex = 0;
     private float selectDelay = 0f;
+    private bool unlocked = false;
 
 
     // storing the saved location
@@ -112,7 +113,7 @@ public class CombinationLock : MonoBehaviour
                 }
             }
 
-            if (correct)
+            if (correct && !unlocked)
             {
                 unlockAction.Invoke();
             }
@@ -147,11 +148,30 @@ public class CombinationLock : MonoBehaviour
     public void Unlock()
     {
         Debug.Log("Code Correct! Unlocking lock...");
-        rb.useGravity = true;
-        rb.isKinematic = false;
+        //rb.useGravity = true;
+        //rb.isKinematic = false;
 
-        // Apply torque to rotate on the x-axis
-        rb.AddTorque(Vector3.left * 1f, ForceMode.Impulse);
+        rb.transform.localRotation = Quaternion.Lerp(
+        rb.transform.localRotation,
+        Quaternion.Euler(rb.transform.localRotation.eulerAngles + new Vector3(-90f, 0f, 0f)),
+        0.015f
+    );
+
+        // Convert to Euler angles for comparison
+        Vector3 currentEulerAngles = rb.transform.localRotation.eulerAngles;
+
+        // Handle 360-degree wrapping issues by normalising the angle
+        float xAngle = currentEulerAngles.x;
+        if (xAngle > 180f) xAngle -= 360f;
+
+        // Check if the x rotation is within the desired range
+        if (xAngle >= -92f && xAngle <= -88f)
+        {
+            unlocked = true;
+            Debug.Log("Lock successfully unlocked!");
+        }
+
+        //rb.AddTorque(Vector3.left * 1f, ForceMode.Impulse);
 
         lockedKey.enabled = true;
     }

@@ -609,6 +609,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   rb: {fileID: 2443775737615253792}
+  lockedKey: {fileID: 0}
   leftSelect: {fileID: -1982954274305685397, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   rightSelect: {fileID: 7236761063086376565, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   joyThreshold: 0.8
