@@ -43,7 +43,7 @@ public class CombinationLock : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !unlocked)
         {
             indicator.gameObject.SetActive(true);
         }
@@ -67,7 +67,8 @@ public class CombinationLock : MonoBehaviour
         selectDelay -= selectDelay > 0 ? Time.deltaTime : 0;
 
         // getting the input vector
-        Vector2 input = leftSelect.action.ReadValue<Vector2>() + rightSelect.action.ReadValue<Vector2>(); // players can use both controllers  
+        Vector2 input = leftSelect.action.ReadValue<Vector2>() + 
+            rightSelect.action.ReadValue<Vector2>(); // players can use both controllers  
 
         // if controller is grabbed and no delay
         if (active && selectDelay <= 0)
@@ -174,6 +175,7 @@ public class CombinationLock : MonoBehaviour
         //rb.AddTorque(Vector3.left * 1f, ForceMode.Impulse);
 
         lockedKey.enabled = true;
+        indicator.gameObject.SetActive(false);
     }
 }
 /* #if UNITY_EDITOR

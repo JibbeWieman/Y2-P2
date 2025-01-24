@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using Unity.FPS.Game;
-using System;
 
 public class VRMouseCursor : MonoBehaviour
 {

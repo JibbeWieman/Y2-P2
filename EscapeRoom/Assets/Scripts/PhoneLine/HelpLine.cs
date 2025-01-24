@@ -5,13 +5,36 @@ using UnityEngine;
 
 public class HelpLine : MonoBehaviour
 {
+    [SerializeField] private AudioClip phoneRing;
+    private AudioSource audioSource;
+    
     private Animator animator;
 
     private bool isCooldown;
 
-    public void Start()
+    private void Start()
     {
         animator = GetComponent<Animator>();
+        if (!GetComponent<AudioSource>())
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        else
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
+
+        if (phoneRing != null)
+        {
+            audioSource.clip = phoneRing;
+            audioSource.playOnAwake = true;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("PhoneRing audio clip is not assigned!");
+        }
     }
 
     public enum Parameters {
@@ -25,6 +48,10 @@ public class HelpLine : MonoBehaviour
 
     public void Play()
     {
+        audioSource.Pause();
+        audioSource.clip = null;
+        audioSource.loop = false;
+
         if (isCooldown) return;
 
         isCooldown = true;
