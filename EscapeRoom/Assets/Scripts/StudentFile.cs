@@ -26,10 +26,10 @@
 //    public void UpdateStudentFiles()
 //    {
 //        // Generate a random hacker profile
-//        hackerGenerator.PickRandomHackerProfile();
+//        hackerGenerator.RandomizeHacker();
 
 //        // Get the student profile based on the selected hacker
-//        string studentName = hackerGenerator.studentName;
+//        string studentName = hackerGenerator.hackerName;
 //        if (!studentProfiles.ContainsKey(studentName))
 //        {
 //            Debug.LogError($"Student profile not found for {studentName}");
@@ -51,3 +51,4 @@
 //        }
 //    }
 //}
+
